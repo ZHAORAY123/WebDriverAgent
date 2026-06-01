@@ -67,21 +67,29 @@ npm -v
 
 这些依赖和缓存都可以在新机器自动重建。
 
-## 第一步：一键初始化 Appium 环境
+## 第一步：一键部署 Appium 环境
 
 在项目根目录执行：
 
 ```bash
-./Scripts/setup-ios-appium-demo.sh
+./Scripts/deploy-appium-smoke.sh
 ```
 
 这个脚本会做这些事：
 
 - 检查本机是否有 `xcodebuild`、`xcrun`、`node`、`npm`
-- 安装 `demo/appium-smoke` 里的本地 Appium
+- 安装 `demo/appium-smoke` 里的本地 Appium，也就是恢复 `node_modules`
 - 安装 Appium 的 `xcuitest` driver
+- 创建本机运行目录：`.appium`、`artifacts`、`logs`、`prebuilt-wda`、`case-data/uploads`
+- 校验用例动作模板
 
 如果这一步成功，说明新机器已经具备 Appium 侧的运行条件。
+
+兼容旧命令仍然可用：
+
+```bash
+./Scripts/setup-ios-appium-demo.sh
+```
 
 ## 第二步：一键跑通 iOS 自动化
 
