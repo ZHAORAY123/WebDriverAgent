@@ -1,0 +1,19 @@
+{
+  "name": "appium-smoke-demo",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "smoke": "node ./smoke-test.mjs",
+    "mgtv:search-switch": "node ./cases/mgtv-search-switch-episode.mjs",
+    "cases:list": "node ./case-runner.mjs --list",
+    "cases:run": "node ./case-runner.mjs",
+    "cases:validate-actions": "node ./scripts/validate-action-templates.mjs",
+    "cases:admin": "node ./admin-server.mjs",
+    "app:explore": "node ./app-explorer.mjs",
+    "mgtv:regression": "node ./case-runner.mjs --tag 批量回归"
+  },
+  "dependencies": {
+    "appium": "^3.1.0",
+    "pngjs": "^7.0.0"
+  }
+}

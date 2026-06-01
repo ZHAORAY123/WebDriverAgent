@@ -42,6 +42,9 @@ Modules/module.modulemap
 
 # node stuff
 node_modules
+demo/appium-smoke/.appium/
+demo/appium-smoke/artifacts/
+demo/appium-smoke/logs/
 
 # webdriveragent zip bundles
 bundles/
