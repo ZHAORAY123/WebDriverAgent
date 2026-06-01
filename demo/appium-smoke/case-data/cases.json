@@ -1,0 +1,5776 @@
+[
+  {
+    "id": "mgtv-vod-page-buttons-scroll-fullscreen",
+    "title": "点播页按钮、滑动、全屏功能回归",
+    "group": "点播页",
+    "priority": "P0",
+    "enabled": true,
+    "description": "覆盖点播详情页的核心按钮点击、上下滑动、进入全屏及全屏后的常见功能入口。",
+    "expectedResult": "",
+    "actualResult": "最近一次运行：失败，耗时 2m 55s；失败原因：Error: Could not find any clickable text: 播放, 立即播放, 继续播放",
+    "coverImage": "",
+    "tags": [
+      "点播",
+      "全屏",
+      "播放"
+    ],
+    "params": {
+      "keyword": "我的人间烟火",
+      "episode": 2
+    },
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "动作执行完成，页面状态符合业务预期。",
+        "actualResult": ""
+      },
+      {
+        "action": "dismissCommonPopups",
+        "name": "关闭常见弹窗",
+        "expectedResult": "动作执行完成，页面状态符合业务预期。",
+        "actualResult": ""
+      },
+      {
+        "action": "searchKeyword",
+        "name": "搜索点播内容",
+        "expectedResult": "进入搜索结果页，结果页展示播放或相关内容入口。",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "openVodDetailFromResults",
+        "name": "进入点播详情页",
+        "expectedResult": "动作执行完成，页面状态符合业务预期。",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "relaunchToHome",
+        "name": "校验详情页基础模块",
+        "expectedResult": "动作执行完成，页面状态符合业务预期。",
+        "actualResult": "",
+        "texts": [
+          "{{params.keyword}}",
+          "选集"
+        ]
+      },
+      {
+        "action": "clickOptionalTexts",
+        "name": "点击点播页常见按钮",
+        "expectedResult": "动作执行完成，页面状态符合业务预期。",
+        "actualResult": "",
+        "texts": [
+          "追剧",
+          "预约",
+          "缓存",
+          "分享",
+          "更多",
+          "简介",
+          "评论",
+          "猜你喜欢"
+        ],
+        "backAfterClick": true,
+        "saveArtifacts": true
+      },
+      {
+        "action": "swipePercent",
+        "name": "点播页向上滑动",
+        "expectedResult": "动作执行完成，页面状态符合业务预期。",
+        "actualResult": "",
+        "from": {
+          "x": 0.5,
+          "y": 0.78
+        },
+        "to": {
+          "x": 0.5,
+          "y": 0.28
+        }
+      },
+      {
+        "action": "swipePercent",
+        "name": "点播页向下滑动",
+        "expectedResult": "动作执行完成，页面状态符合业务预期。",
+        "actualResult": "",
+        "from": {
+          "x": 0.5,
+          "y": 0.28
+        },
+        "to": {
+          "x": 0.5,
+          "y": 0.78
+        }
+      },
+      {
+        "action": "playAndAssert",
+        "name": "点击播放并校验播放态",
+        "expectedResult": "播放成功，页面出现暂停、全屏、倍速等播放态控件。",
+        "actualResult": "",
+        "playTexts": [
+          "播放",
+          "立即播放",
+          "继续播放"
+        ],
+        "playingTexts": [
+          "暂停",
+          "全屏",
+          "倍速",
+          "选集",
+          "清晰度"
+        ]
+      },
+      {
+        "action": "enterFullscreen",
+        "name": "进入全屏",
+        "expectedResult": "动作执行完成，页面状态符合业务预期。",
+        "actualResult": "",
+        "texts": [
+          "全屏"
+        ],
+        "assertTexts": [
+          "倍速",
+          "选集",
+          "清晰度",
+          "弹幕",
+          "暂停"
+        ]
+      },
+      {
+        "action": "waitAndCloseAd",
+        "name": "全屏广告/弹层处理",
+        "expectedResult": "动作执行完成，页面状态符合业务预期。",
+        "actualResult": "",
+        "timeoutMs": 12000,
+        "required": false,
+        "saveArtifacts": true
+      },
+      {
+        "action": "clickOptionalTexts",
+        "name": "全屏后功能入口测试",
+        "expectedResult": "动作执行完成，页面状态符合业务预期。",
+        "actualResult": "",
+        "texts": [
+          "倍速",
+          "选集",
+          "清晰度",
+          "弹幕",
+          "下一集"
+        ],
+        "backAfterClick": false,
+        "saveArtifacts": true
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存全屏截图",
+        "expectedResult": "动作执行完成，页面状态符合业务预期。",
+        "actualResult": "",
+        "filename": "vod-fullscreen.png"
+      },
+      {
+        "action": "relaunchToHome",
+        "name": "保存全屏源码",
+        "expectedResult": "动作执行完成，页面状态符合业务预期。",
+        "actualResult": "",
+        "filename": "vod-fullscreen.xml"
+      }
+    ],
+    "createdAt": "2026-05-13T00:00:00.000Z",
+    "updatedAt": "2026-05-22T06:17:07.921Z"
+  },
+  {
+    "id": "mgtv-search-keyword-batch",
+    "title": "搜索不同关键词批量回归",
+    "group": "搜索",
+    "priority": "P0",
+    "enabled": true,
+    "description": "用一个用例维护关键词列表，runner 会逐个重启到首页并完成搜索结果校验。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "搜索",
+      "批量回归"
+    ],
+    "params": {
+      "keywords": [
+        "我的人间烟火",
+        "歌手",
+        "乘风",
+        "大侦探"
+      ]
+    },
+    "steps": [
+      {
+        "action": "searchBatch",
+        "name": "批量搜索关键词",
+        "expectedResult": "",
+        "actualResult": "",
+        "keywords": "{{params.keywords}}",
+        "resultTexts": [
+          "播放",
+          "相关影视作品",
+          "热搜榜",
+          "猜你想搜这些"
+        ],
+        "saveArtifacts": true
+      }
+    ],
+    "createdAt": "2026-05-13T00:00:00.000Z",
+    "updatedAt": "2026-05-14T01:16:59.564Z"
+  },
+  {
+    "id": "mgtv-vod-detail-title-tags-episodes",
+    "title": "详情页标题、标签、选集分组校验",
+    "group": "点播页",
+    "priority": "P0",
+    "enabled": true,
+    "description": "从搜索进入详情页后，校验标题、标签/简介信息、选集入口和目标集数。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "详情页",
+      "选集"
+    ],
+    "params": {
+      "keyword": "我的人间烟火",
+      "episode": 2,
+      "expectedTexts": [
+        "详情",
+        "看点",
+        "电视剧",
+        "选集",
+        "正片",
+        "开始：1-10"
+      ]
+    },
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "searchKeyword",
+        "name": "搜索内容",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "openVodDetailFromResults",
+        "name": "进入详情页",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "assertText",
+        "name": "校验详情页标题",
+        "expectedResult": "",
+        "actualResult": "",
+        "text": "{{params.keyword}}"
+      },
+      {
+        "action": "assertAllText",
+        "name": "校验标签和选集分组",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": "{{params.expectedTexts}}"
+      },
+      {
+        "action": "switchEpisode",
+        "name": "切换目标集数",
+        "expectedResult": "",
+        "actualResult": "",
+        "episode": "{{params.episode}}"
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验目标集数选中",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "第{{params.episode}}集",
+          "{{params.episode}}"
+        ]
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存详情页截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "vod-detail-validated.png"
+      }
+    ],
+    "createdAt": "2026-05-13T00:00:00.000Z",
+    "updatedAt": "2026-05-14T06:50:24.724Z"
+  },
+  {
+    "id": "mgtv-playback-state",
+    "title": "点击播放并校验播放态",
+    "group": "播放",
+    "priority": "P0",
+    "enabled": true,
+    "description": "验证从点播详情点击播放后，页面进入播放器状态并出现播放控制入口。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "播放",
+      "冒烟"
+    ],
+    "params": {
+      "keyword": "我的人间烟火"
+    },
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "searchKeyword",
+        "name": "搜索内容",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "openVodDetailFromResults",
+        "name": "进入详情页",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "playAndAssert",
+        "name": "点击播放并校验播放态",
+        "expectedResult": "",
+        "actualResult": "",
+        "playTexts": [
+          "播放",
+          "立即播放",
+          "继续播放"
+        ],
+        "playingTexts": [
+          "mediaControl fullscreen",
+          "ad pause",
+          "广告",
+          "暂停",
+          "全屏",
+          "倍速",
+          "选集",
+          "清晰度"
+        ]
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存播放态截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "playback-state.png"
+      }
+    ],
+    "createdAt": "2026-05-13T00:00:00.000Z",
+    "updatedAt": "2026-05-14T03:12:00.685Z"
+  },
+  {
+    "id": "mgtv-home-tab-topic-vip-paths",
+    "title": "首页 Tab、专题页、会员页路径用例",
+    "group": "首页路径",
+    "priority": "P1",
+    "enabled": true,
+    "description": "覆盖首页底部 Tab、专题入口和会员页基础可达性。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "首页",
+      "路径",
+      "会员"
+    ],
+    "params": {},
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "clickOptionalTexts",
+        "name": "遍历首页 Tab",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "首页",
+          "刷片",
+          "首页测试",
+          "找片",
+          "短剧",
+          "综艺",
+          "电视剧",
+          "电影"
+        ],
+        "backAfterClick": false,
+        "saveArtifacts": true
+      },
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页准备进入会员",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验会员入口",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "开通会员",
+          "VIP"
+        ]
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存会员入口截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "vip-entry.png"
+      },
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页准备进入专题",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "clickAnyText",
+        "name": "进入专题页",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "专题",
+          "芒果专题",
+          "活动",
+          "更多",
+          "更多乐高"
+        ]
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验专题页",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "专题",
+          "活动",
+          "推荐",
+          "更多",
+          "乐高"
+        ]
+      },
+      {
+        "action": "back",
+        "name": "返回首页",
+        "expectedResult": "",
+        "actualResult": ""
+      }
+    ],
+    "createdAt": "2026-05-13T00:00:00.000Z",
+    "updatedAt": "2026-05-13T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-home-basic-modules",
+    "title": "首页顶部 Tab、推荐流滑动、随机卡片冒烟",
+    "group": "首页",
+    "priority": "P0",
+    "enabled": true,
+    "description": "依次点击首页顶部可见 Tab，在每个 Tab 下方快速滑动推荐流，只在中间/右侧安全内容区随机点击卡片，禁止点击左侧悬浮按钮，展示后返回，再继续下一个 Tab。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "首页",
+      "冒烟",
+      "顶部Tab",
+      "随机卡片"
+    ],
+    "params": {
+      "tabs": [
+        "刷片",
+        "首页测试",
+        "找片",
+        "短剧",
+        "综艺",
+        "电视剧",
+        "电影"
+      ]
+    },
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "动作执行完成，页面状态符合业务预期。",
+        "actualResult": ""
+      },
+      {
+        "action": "dismissCommonPopups",
+        "name": "关闭常见弹窗",
+        "expectedResult": "动作执行完成，页面状态符合业务预期。",
+        "actualResult": ""
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验首页顶部 Tab 可见",
+        "expectedResult": "页面出现：刷片 / 首页测试 / 找片 / 短剧 / 综艺 / 电视剧 / 电影",
+        "actualResult": "",
+        "texts": [
+          "刷片",
+          "首页测试",
+          "找片",
+          "短剧",
+          "综艺",
+          "电视剧",
+          "电影"
+        ]
+      },
+      {
+        "action": "homeTabSweep",
+        "name": "依次点击顶部 Tab、快速滑动并随机点卡片",
+        "expectedResult": "动作执行完成，页面状态符合业务预期。",
+        "actualResult": "",
+        "tabs": "{{params.tabs}}",
+        "swipeCount": 2,
+        "swipeDurationMs": 180,
+        "swipeWaitMs": 250,
+        "cardDisplayMs": 1600,
+        "backWaitMs": 900,
+        "saveArtifacts": true,
+        "cardTapPoints": [
+          {
+            "x": 0.5,
+            "y": 0.45
+          },
+          {
+            "x": 0.72,
+            "y": 0.48
+          },
+          {
+            "x": 0.5,
+            "y": 0.62
+          },
+          {
+            "x": 0.72,
+            "y": 0.64
+          },
+          {
+            "x": 0.5,
+            "y": 0.76
+          }
+        ],
+        "excludedTapZones": [
+          {
+            "name": "禁止点击左侧浮层按钮",
+            "xMin": 0,
+            "xMax": 0.22,
+            "yMin": 0.28,
+            "yMax": 0.92
+          },
+          {
+            "name": "禁止点击底部导航",
+            "xMin": 0,
+            "xMax": 1,
+            "yMin": 0.9,
+            "yMax": 1
+          },
+          {
+            "name": "禁止点击顶部导航",
+            "xMin": 0,
+            "xMax": 1,
+            "yMin": 0,
+            "yMax": 0.18
+          }
+        ]
+      },
+      {
+        "action": "relaunchToHome",
+        "name": "巡检完成后回到首页",
+        "expectedResult": "动作执行完成，页面状态符合业务预期。",
+        "actualResult": ""
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验首页恢复可操作",
+        "expectedResult": "页面出现：刷片 / 首页测试 / 找片 / 搜索",
+        "actualResult": "",
+        "texts": [
+          "刷片",
+          "首页测试",
+          "找片",
+          "搜索"
+        ]
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存首页 Tab 冒烟截图",
+        "expectedResult": "动作执行完成，页面状态符合业务预期。",
+        "actualResult": "",
+        "filename": "home-tab-sweep-smoke.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-22T06:21:13.431Z"
+  },
+  {
+    "id": "mgtv-vip-entry-smoke",
+    "title": "会员入口冒烟",
+    "group": "会员页",
+    "priority": "P1",
+    "enabled": true,
+    "description": "校验首页会员入口或 VIP 入口可见，作为会员路径的轻量回归。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "会员",
+      "入口"
+    ],
+    "params": {},
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验会员入口",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "开通会员",
+          "VIP"
+        ]
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存会员入口截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "vip-entry-smoke.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-search-single-keyword-smoke",
+    "title": "单关键词搜索冒烟",
+    "group": "搜索",
+    "priority": "P0",
+    "enabled": true,
+    "description": "快速验证单个关键词从首页进入搜索结果页。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "搜索",
+      "冒烟"
+    ],
+    "params": {
+      "keyword": "歌手"
+    },
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "searchKeyword",
+        "name": "搜索关键词",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验搜索结果",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "{{params.keyword}}",
+          "播放",
+          "相关影视作品",
+          "全部"
+        ]
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存搜索结果截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "search-single-keyword.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-vod-scroll-basic",
+    "title": "点播详情滑动基础回归",
+    "group": "点播页",
+    "priority": "P1",
+    "enabled": true,
+    "description": "进入点播详情后校验详情、选集、推荐流，并执行上下滑动。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "点播",
+      "滑动"
+    ],
+    "params": {
+      "keyword": "我的人间烟火"
+    },
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "searchKeyword",
+        "name": "搜索内容",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "openVodDetailFromResults",
+        "name": "进入详情页",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验详情基础信息",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "详情",
+          "选集",
+          "猜你喜欢"
+        ]
+      },
+      {
+        "action": "swipePercent",
+        "name": "向上滑动",
+        "expectedResult": "",
+        "actualResult": "",
+        "from": {
+          "x": 0.5,
+          "y": 0.78
+        },
+        "to": {
+          "x": 0.5,
+          "y": 0.28
+        }
+      },
+      {
+        "action": "swipePercent",
+        "name": "向下滑动",
+        "expectedResult": "",
+        "actualResult": "",
+        "from": {
+          "x": 0.5,
+          "y": 0.28
+        },
+        "to": {
+          "x": 0.5,
+          "y": 0.78
+        }
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存点播详情截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "vod-scroll-basic.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T06:01:31.100Z"
+  },
+  {
+    "id": "mgtv-player-fullscreen-lite",
+    "title": "播放器全屏轻量回归",
+    "group": "播放",
+    "priority": "P1",
+    "enabled": true,
+    "description": "从详情页进入播放态后尝试进入全屏，并校验常见控制入口。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "播放",
+      "全屏"
+    ],
+    "params": {
+      "keyword": "我的人间烟火"
+    },
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "searchKeyword",
+        "name": "搜索内容",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "openVodDetailFromResults",
+        "name": "进入详情页",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "playAndAssert",
+        "name": "进入播放态",
+        "expectedResult": "",
+        "actualResult": "",
+        "playingTexts": [
+          "mediaControl fullscreen",
+          "ad pause",
+          "广告",
+          "全屏",
+          "暂停"
+        ]
+      },
+      {
+        "action": "enterFullscreen",
+        "name": "进入全屏",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "mediaControl fullscreen",
+          "全屏"
+        ],
+        "assertTexts": [
+          "mediaControl",
+          "广告",
+          "暂停",
+          "倍速",
+          "清晰度"
+        ]
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存播放器截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "player-fullscreen-lite.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-search-variety-batch",
+    "title": "综艺关键词搜索批量回归",
+    "group": "搜索",
+    "priority": "P1",
+    "enabled": true,
+    "description": "覆盖综艺类高频关键词搜索，验证搜索结果页基础承载和可播放入口。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "搜索",
+      "综艺",
+      "批量回归"
+    ],
+    "params": {
+      "keywords": [
+        "歌手",
+        "乘风",
+        "大侦探",
+        "密室大逃脱"
+      ]
+    },
+    "steps": [
+      {
+        "action": "searchBatch",
+        "name": "批量搜索综艺关键词",
+        "expectedResult": "",
+        "actualResult": "",
+        "keywords": "{{params.keywords}}",
+        "resultTexts": [
+          "播放",
+          "相关影视作品",
+          "热搜榜",
+          "猜你想搜这些",
+          "全部"
+        ],
+        "saveArtifacts": true
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-search-drama-movie-batch",
+    "title": "剧集电影关键词搜索批量回归",
+    "group": "搜索",
+    "priority": "P1",
+    "enabled": true,
+    "description": "覆盖剧集、电影类关键词，作为搜索结果召回和详情入口前置回归。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "搜索",
+      "剧集",
+      "电影",
+      "批量回归"
+    ],
+    "params": {
+      "keywords": [
+        "我的人间烟火",
+        "长相思",
+        "电影",
+        "电视剧"
+      ]
+    },
+    "steps": [
+      {
+        "action": "searchBatch",
+        "name": "批量搜索剧集电影关键词",
+        "expectedResult": "",
+        "actualResult": "",
+        "keywords": "{{params.keywords}}",
+        "resultTexts": [
+          "播放",
+          "相关影视作品",
+          "全部",
+          "电视剧",
+          "电影"
+        ],
+        "saveArtifacts": true
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-search-edge-keyword-resilience",
+    "title": "搜索特殊关键词容错回归",
+    "group": "搜索",
+    "priority": "P2",
+    "enabled": true,
+    "description": "输入低召回或特殊关键词，校验搜索页不会白屏并展示可恢复入口。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "搜索",
+      "容错",
+      "探索"
+    ],
+    "params": {
+      "keyword": "zzzzmgtvtest"
+    },
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "searchKeyword",
+        "name": "搜索低召回关键词",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验搜索页容错状态",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "搜索",
+          "换个词",
+          "暂无",
+          "猜你想搜这些",
+          "热搜榜",
+          "全部"
+        ],
+        "timeoutMs": 12000
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存容错截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "search-edge-keyword.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-home-channel-navigation-regression",
+    "title": "首页频道导航批量回归",
+    "group": "首页",
+    "priority": "P1",
+    "enabled": true,
+    "description": "遍历首页常见频道 Tab，验证频道切换不会卡死并保留首页可操作性。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "首页",
+      "频道",
+      "路径"
+    ],
+    "params": {},
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "dismissCommonPopups",
+        "name": "关闭常见弹窗",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "clickOptionalTexts",
+        "name": "遍历顶部/底部频道",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "首页",
+          "精选",
+          "刷片",
+          "首页测试",
+          "找片",
+          "短剧",
+          "综艺",
+          "电视剧",
+          "电影"
+        ],
+        "backAfterClick": false,
+        "saveArtifacts": true
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验仍在可浏览状态",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "首页",
+          "刷片",
+          "找片",
+          "搜索",
+          "VIP"
+        ]
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存频道导航截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "home-channel-navigation.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-home-feed-scroll-regression",
+    "title": "首页推荐流上下滑动回归",
+    "group": "首页",
+    "priority": "P1",
+    "enabled": true,
+    "description": "在首页推荐流执行上下滑动，校验列表区域基础稳定性。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "首页",
+      "滑动",
+      "推荐流"
+    ],
+    "params": {},
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验首页入口",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "刷片",
+          "首页测试",
+          "找片",
+          "搜索"
+        ]
+      },
+      {
+        "action": "swipePercent",
+        "name": "首页向上滑动",
+        "expectedResult": "",
+        "actualResult": "",
+        "from": {
+          "x": 0.5,
+          "y": 0.78
+        },
+        "to": {
+          "x": 0.5,
+          "y": 0.25
+        }
+      },
+      {
+        "action": "swipePercent",
+        "name": "首页继续向上滑动",
+        "expectedResult": "",
+        "actualResult": "",
+        "from": {
+          "x": 0.5,
+          "y": 0.78
+        },
+        "to": {
+          "x": 0.5,
+          "y": 0.25
+        }
+      },
+      {
+        "action": "swipePercent",
+        "name": "首页向下回滑",
+        "expectedResult": "",
+        "actualResult": "",
+        "from": {
+          "x": 0.5,
+          "y": 0.28
+        },
+        "to": {
+          "x": 0.5,
+          "y": 0.78
+        }
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存首页推荐流截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "home-feed-scroll.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-topic-entry-regression",
+    "title": "专题/活动入口路径回归",
+    "group": "专题页",
+    "priority": "P1",
+    "enabled": true,
+    "description": "从首页尝试进入专题、活动或更多内容入口，校验页面可达。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "专题",
+      "活动",
+      "路径"
+    ],
+    "params": {},
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "clickAnyText",
+        "name": "进入专题或活动入口",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "专题",
+          "芒果专题",
+          "活动",
+          "更多",
+          "更多乐高"
+        ]
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验专题页承载",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "专题",
+          "活动",
+          "推荐",
+          "更多",
+          "乐高",
+          "返回"
+        ]
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存专题页截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "topic-entry.png"
+      },
+      {
+        "action": "back",
+        "name": "返回首页",
+        "expectedResult": "",
+        "actualResult": ""
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-vip-benefits-page-regression",
+    "title": "会员权益页路径回归",
+    "group": "会员页",
+    "priority": "P1",
+    "enabled": true,
+    "description": "进入会员相关入口后，校验权益、开通、VIP 等核心信息可见。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "会员",
+      "权益",
+      "路径"
+    ],
+    "params": {},
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "clickAnyText",
+        "name": "进入会员入口",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "开通会员",
+          "会员",
+          "VIP"
+        ]
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验会员页信息",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "VIP",
+          "会员",
+          "开通",
+          "权益",
+          "立即开通",
+          "登录"
+        ]
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存会员页截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "vip-benefits-page.png"
+      },
+      {
+        "action": "back",
+        "name": "返回首页",
+        "expectedResult": "",
+        "actualResult": ""
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-vod-episode-switch-regression",
+    "title": "点播多集切换回归",
+    "group": "点播页",
+    "priority": "P1",
+    "enabled": true,
+    "description": "进入详情页后连续切换多个集数，验证选集分组与播放入口稳定性。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "点播",
+      "选集",
+      "回归"
+    ],
+    "params": {
+      "keyword": "我的人间烟火",
+      "episodes": [
+        1,
+        2,
+        3
+      ]
+    },
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "searchKeyword",
+        "name": "搜索内容",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "openVodDetailFromResults",
+        "name": "进入详情页",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验选集入口",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "选集",
+          "正片",
+          "开始：1-10",
+          "第1集"
+        ]
+      },
+      {
+        "action": "switchEpisode",
+        "name": "切换第1集",
+        "expectedResult": "",
+        "actualResult": "",
+        "episode": 1
+      },
+      {
+        "action": "switchEpisode",
+        "name": "切换第2集",
+        "expectedResult": "",
+        "actualResult": "",
+        "episode": 2
+      },
+      {
+        "action": "switchEpisode",
+        "name": "切换第3集",
+        "expectedResult": "",
+        "actualResult": "",
+        "episode": 3
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存选集截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "vod-episode-switch.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-vod-comment-share-cache-regression",
+    "title": "点播评论分享缓存入口回归",
+    "group": "点播页",
+    "priority": "P2",
+    "enabled": true,
+    "description": "验证点播详情页评论、分享、缓存等功能入口不会导致页面异常。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "点播",
+      "评论",
+      "分享",
+      "缓存"
+    ],
+    "params": {
+      "keyword": "我的人间烟火"
+    },
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "searchKeyword",
+        "name": "搜索内容",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "openVodDetailFromResults",
+        "name": "进入详情页",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "clickOptionalTexts",
+        "name": "点击评论分享缓存入口",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "评论",
+          "分享",
+          "缓存",
+          "追剧",
+          "简介"
+        ],
+        "backAfterClick": true,
+        "saveArtifacts": true
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验返回详情页",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "{{params.keyword}}",
+          "选集",
+          "播放",
+          "简介"
+        ]
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存点播功能入口截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "vod-comment-share-cache.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-player-overlay-controls-regression",
+    "title": "播放器控制层入口回归",
+    "group": "播放",
+    "priority": "P1",
+    "enabled": true,
+    "description": "进入播放态后点击控制层，校验暂停、全屏、选集、清晰度等入口。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "播放",
+      "控制层",
+      "回归"
+    ],
+    "params": {
+      "keyword": "我的人间烟火"
+    },
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "searchKeyword",
+        "name": "搜索内容",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "openVodDetailFromResults",
+        "name": "进入详情页",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "playAndAssert",
+        "name": "进入播放态并校验控制层",
+        "expectedResult": "",
+        "actualResult": "",
+        "playTexts": [
+          "播放",
+          "立即播放",
+          "继续播放"
+        ],
+        "playingTexts": [
+          "暂停",
+          "全屏",
+          "倍速",
+          "选集",
+          "清晰度",
+          "广告",
+          "mediaControl fullscreen"
+        ]
+      },
+      {
+        "action": "tapPercent",
+        "name": "点击播放器中部唤起控制层",
+        "expectedResult": "",
+        "actualResult": "",
+        "x": 0.5,
+        "y": 0.25
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验控制层入口",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "暂停",
+          "全屏",
+          "倍速",
+          "选集",
+          "清晰度",
+          "mediaControl fullscreen"
+        ]
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存控制层截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "player-overlay-controls.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-player-fullscreen-controls-regression",
+    "title": "全屏播放器控制入口回归",
+    "group": "播放",
+    "priority": "P1",
+    "enabled": true,
+    "description": "进入全屏后校验倍速、清晰度、选集、弹幕等入口。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "播放",
+      "全屏",
+      "控制层"
+    ],
+    "params": {
+      "keyword": "我的人间烟火"
+    },
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "searchKeyword",
+        "name": "搜索内容",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "openVodDetailFromResults",
+        "name": "进入详情页",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "playAndAssert",
+        "name": "进入播放态",
+        "expectedResult": "",
+        "actualResult": "",
+        "playTexts": [
+          "播放",
+          "立即播放",
+          "继续播放"
+        ],
+        "playingTexts": [
+          "全屏",
+          "暂停",
+          "广告",
+          "mediaControl fullscreen"
+        ]
+      },
+      {
+        "action": "enterFullscreen",
+        "name": "进入全屏",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "mediaControl fullscreen",
+          "全屏"
+        ],
+        "assertTexts": [
+          "倍速",
+          "清晰度",
+          "选集",
+          "暂停",
+          "广告",
+          "mediaControl"
+        ]
+      },
+      {
+        "action": "clickOptionalTexts",
+        "name": "点击全屏常用控制入口",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "倍速",
+          "清晰度",
+          "选集",
+          "弹幕"
+        ],
+        "backAfterClick": false,
+        "saveArtifacts": true
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存全屏控制层截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "player-fullscreen-controls.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-path-smoke-suite",
+    "title": "首页搜索点播播放主链路冒烟套件",
+    "group": "核心链路",
+    "priority": "P0",
+    "enabled": true,
+    "description": "把首页、搜索、详情、播放串成一条最短业务主链路，适合作为每日第一条健康检查。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "核心链路",
+      "冒烟",
+      "每日"
+    ],
+    "params": {
+      "keyword": "我的人间烟火"
+    },
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "dismissCommonPopups",
+        "name": "关闭常见弹窗",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验首页可用",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "刷片",
+          "首页测试",
+          "找片",
+          "搜索"
+        ]
+      },
+      {
+        "action": "searchKeyword",
+        "name": "搜索内容",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验搜索结果",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "{{params.keyword}}",
+          "播放",
+          "相关影视作品",
+          "全部"
+        ]
+      },
+      {
+        "action": "openVodDetailFromResults",
+        "name": "进入详情页",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验详情页",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "{{params.keyword}}",
+          "选集",
+          "播放",
+          "简介"
+        ]
+      },
+      {
+        "action": "playAndAssert",
+        "name": "点击播放并校验播放态",
+        "expectedResult": "",
+        "actualResult": "",
+        "playTexts": [
+          "播放",
+          "立即播放",
+          "继续播放"
+        ],
+        "playingTexts": [
+          "暂停",
+          "全屏",
+          "广告",
+          "mediaControl fullscreen"
+        ]
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存主链路截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "path-smoke-suite.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-core-home-search-detail-play-fullscreen",
+    "title": "核心链路：首页搜索详情播放全屏深度回归",
+    "group": "核心链路",
+    "priority": "P0",
+    "enabled": true,
+    "description": "从首页到搜索、详情、播放、全屏、控制层入口的完整主链路。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "核心链路",
+      "深度回归",
+      "播放",
+      "全屏"
+    ],
+    "params": {
+      "keyword": "我的人间烟火"
+    },
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "dismissCommonPopups",
+        "name": "关闭常见弹窗",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "searchKeyword",
+        "name": "搜索内容",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验搜索结果承载",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "{{params.keyword}}",
+          "播放",
+          "相关影视作品",
+          "全部",
+          "热搜榜"
+        ],
+        "timeoutMs": 12000
+      },
+      {
+        "action": "openVodDetailFromResults",
+        "name": "进入详情页",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验详情页承载",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "{{params.keyword}}",
+          "选集",
+          "播放",
+          "简介",
+          "猜你喜欢"
+        ],
+        "timeoutMs": 12000
+      },
+      {
+        "action": "clickOptionalTexts",
+        "name": "详情页功能入口巡检",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "追剧",
+          "缓存",
+          "分享",
+          "评论",
+          "简介"
+        ],
+        "backAfterClick": true,
+        "saveArtifacts": true
+      },
+      {
+        "action": "playAndAssert",
+        "name": "进入播放态",
+        "expectedResult": "",
+        "actualResult": "",
+        "playTexts": [
+          "播放",
+          "立即播放",
+          "继续播放"
+        ],
+        "playingTexts": [
+          "暂停",
+          "全屏",
+          "倍速",
+          "选集",
+          "清晰度",
+          "广告",
+          "mediaControl fullscreen"
+        ]
+      },
+      {
+        "action": "tapPercent",
+        "name": "唤起播放控制层",
+        "expectedResult": "",
+        "actualResult": "",
+        "x": 0.5,
+        "y": 0.25
+      },
+      {
+        "action": "enterFullscreen",
+        "name": "进入全屏并校验",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "mediaControl fullscreen",
+          "全屏"
+        ],
+        "assertTexts": [
+          "倍速",
+          "清晰度",
+          "选集",
+          "暂停",
+          "弹幕",
+          "广告"
+        ]
+      },
+      {
+        "action": "clickOptionalTexts",
+        "name": "全屏控制入口巡检",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "倍速",
+          "清晰度",
+          "选集",
+          "弹幕",
+          "下一集"
+        ],
+        "backAfterClick": false,
+        "saveArtifacts": true
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存核心链路全屏截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "core-home-search-detail-play-fullscreen.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-core-cold-start-home-recovery",
+    "title": "核心链路：冷启动首页恢复能力回归",
+    "group": "核心链路",
+    "priority": "P1",
+    "enabled": true,
+    "description": "多次回到首页并穿插滑动、频道切换，验证首页恢复和可操作性。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "核心链路",
+      "冷启动",
+      "首页"
+    ],
+    "params": {},
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "dismissCommonPopups",
+        "name": "关闭常见弹窗",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验首页入口",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "刷片",
+          "首页测试",
+          "找片",
+          "搜索",
+          "VIP"
+        ]
+      },
+      {
+        "action": "clickOptionalTexts",
+        "name": "频道切换巡检",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "首页",
+          "精选",
+          "刷片",
+          "首页测试",
+          "找片",
+          "短剧",
+          "综艺"
+        ],
+        "backAfterClick": false,
+        "saveArtifacts": true
+      },
+      {
+        "action": "swipePercent",
+        "name": "首页下滑推荐流",
+        "expectedResult": "",
+        "actualResult": "",
+        "from": {
+          "x": 0.5,
+          "y": 0.78
+        },
+        "to": {
+          "x": 0.5,
+          "y": 0.25
+        }
+      },
+      {
+        "action": "swipePercent",
+        "name": "继续下滑推荐流",
+        "expectedResult": "",
+        "actualResult": "",
+        "from": {
+          "x": 0.5,
+          "y": 0.78
+        },
+        "to": {
+          "x": 0.5,
+          "y": 0.25
+        }
+      },
+      {
+        "action": "relaunchToHome",
+        "name": "再次回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验恢复后首页可用",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "刷片",
+          "首页测试",
+          "找片",
+          "搜索"
+        ]
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存冷启动恢复截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "core-cold-start-home-recovery.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-home-top-channel-matrix",
+    "title": "首页顶部频道矩阵回归",
+    "group": "首页",
+    "priority": "P1",
+    "enabled": true,
+    "description": "遍历首页多频道入口，并在切换后执行列表滑动和截图留存。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "首页",
+      "频道",
+      "矩阵"
+    ],
+    "params": {},
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "dismissCommonPopups",
+        "name": "关闭常见弹窗",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "clickOptionalTexts",
+        "name": "频道矩阵点击",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "精选",
+          "电视剧",
+          "电影",
+          "综艺",
+          "少儿",
+          "短剧",
+          "动漫",
+          "纪录片"
+        ],
+        "backAfterClick": false,
+        "saveArtifacts": true
+      },
+      {
+        "action": "swipePercent",
+        "name": "频道内容向上滑动",
+        "expectedResult": "",
+        "actualResult": "",
+        "from": {
+          "x": 0.5,
+          "y": 0.78
+        },
+        "to": {
+          "x": 0.5,
+          "y": 0.24
+        }
+      },
+      {
+        "action": "swipePercent",
+        "name": "频道内容向下回滑",
+        "expectedResult": "",
+        "actualResult": "",
+        "from": {
+          "x": 0.5,
+          "y": 0.28
+        },
+        "to": {
+          "x": 0.5,
+          "y": 0.78
+        }
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验频道页可继续浏览",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "首页",
+          "搜索",
+          "VIP",
+          "播放",
+          "更多"
+        ]
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存频道矩阵截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "home-top-channel-matrix.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-home-search-entry-and-history",
+    "title": "首页搜索入口与历史词回归",
+    "group": "首页",
+    "priority": "P1",
+    "enabled": true,
+    "description": "从首页进入搜索，校验搜索页热搜/历史/结果链路。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "首页",
+      "搜索入口",
+      "历史"
+    ],
+    "params": {
+      "keyword": "歌手"
+    },
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "dismissCommonPopups",
+        "name": "关闭常见弹窗",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "searchKeyword",
+        "name": "从首页搜索关键词",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验搜索页热搜或结果",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "{{params.keyword}}",
+          "热搜榜",
+          "猜你想搜这些",
+          "播放",
+          "全部"
+        ]
+      },
+      {
+        "action": "back",
+        "name": "返回首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验返回首页",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "刷片",
+          "首页测试",
+          "找片",
+          "搜索"
+        ]
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存搜索入口截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "home-search-entry-history.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-home-vip-banner-and-feed",
+    "title": "首页会员 Banner 与推荐流回归",
+    "group": "首页",
+    "priority": "P2",
+    "enabled": true,
+    "description": "校验首页会员入口、推荐流和曝光模块可见。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "首页",
+      "会员",
+      "推荐流"
+    ],
+    "params": {},
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "dismissCommonPopups",
+        "name": "关闭常见弹窗",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验会员或 VIP 入口",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "开通会员",
+          "VIP",
+          "会员",
+          "限免"
+        ]
+      },
+      {
+        "action": "swipePercent",
+        "name": "滑动到推荐流",
+        "expectedResult": "",
+        "actualResult": "",
+        "from": {
+          "x": 0.5,
+          "y": 0.78
+        },
+        "to": {
+          "x": 0.5,
+          "y": 0.22
+        }
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验推荐流信息",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "猜你喜欢",
+          "热播",
+          "推荐",
+          "播放",
+          "更多"
+        ]
+      },
+      {
+        "action": "clickOptionalTexts",
+        "name": "会员入口轻触巡检",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "VIP",
+          "开通会员",
+          "会员"
+        ],
+        "backAfterClick": true,
+        "saveArtifacts": true
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存首页会员模块截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "home-vip-banner-feed.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-search-hot-rank-and-suggestion",
+    "title": "搜索热榜与联想词回归",
+    "group": "搜索",
+    "priority": "P1",
+    "enabled": true,
+    "description": "校验搜索热榜、联想词和搜索结果基础链路。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "搜索",
+      "热榜",
+      "联想"
+    ],
+    "params": {
+      "keyword": "大侦探"
+    },
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "dismissCommonPopups",
+        "name": "关闭常见弹窗",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "searchKeyword",
+        "name": "搜索热榜相关词",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验热榜/联想/结果",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "热搜榜",
+          "猜你想搜这些",
+          "{{params.keyword}}",
+          "播放",
+          "相关影视作品"
+        ]
+      },
+      {
+        "action": "clickOptionalTexts",
+        "name": "结果页筛选入口巡检",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "全部",
+          "影视",
+          "综艺",
+          "电视剧",
+          "电影"
+        ],
+        "backAfterClick": false,
+        "saveArtifacts": true
+      },
+      {
+        "action": "saveSource",
+        "name": "保存搜索页源码",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "search-hot-rank-suggestion.xml"
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存搜索热榜截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "search-hot-rank-suggestion.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-search-result-filter-tabs",
+    "title": "搜索结果分类筛选回归",
+    "group": "搜索",
+    "priority": "P1",
+    "enabled": true,
+    "description": "搜索后遍历全部、综艺、影视等分类筛选入口。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "搜索",
+      "筛选",
+      "分类"
+    ],
+    "params": {
+      "keyword": "乘风"
+    },
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "dismissCommonPopups",
+        "name": "关闭常见弹窗",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "searchKeyword",
+        "name": "搜索内容",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验结果页",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "{{params.keyword}}",
+          "播放",
+          "全部",
+          "相关影视作品"
+        ]
+      },
+      {
+        "action": "clickOptionalTexts",
+        "name": "遍历结果分类",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "全部",
+          "综艺",
+          "影视",
+          "电视剧",
+          "电影",
+          "短剧"
+        ],
+        "backAfterClick": false,
+        "saveArtifacts": true
+      },
+      {
+        "action": "swipePercent",
+        "name": "结果页向上滑动",
+        "expectedResult": "",
+        "actualResult": "",
+        "from": {
+          "x": 0.5,
+          "y": 0.78
+        },
+        "to": {
+          "x": 0.5,
+          "y": 0.24
+        }
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存分类筛选截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "search-result-filter-tabs.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-search-multi-keyword-detail-sampling",
+    "title": "搜索多关键词详情抽样回归",
+    "group": "搜索",
+    "priority": "P1",
+    "enabled": true,
+    "description": "批量搜索多个关键词，并保存每个结果页用于抽样回归。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "搜索",
+      "详情",
+      "抽样"
+    ],
+    "params": {
+      "keywords": [
+        "歌手",
+        "大侦探",
+        "乘风"
+      ]
+    },
+    "steps": [
+      {
+        "action": "searchBatch",
+        "name": "批量搜索并抽样",
+        "expectedResult": "",
+        "actualResult": "",
+        "keywords": "{{params.keywords}}",
+        "resultTexts": [
+          "播放",
+          "相关影视作品",
+          "热搜榜",
+          "全部"
+        ],
+        "saveArtifacts": true
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存最后一个关键词结果",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "search-multi-keyword-detail-sampling.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-search-no-result-recover-home",
+    "title": "搜索无结果恢复首页回归",
+    "group": "搜索",
+    "priority": "P2",
+    "enabled": true,
+    "description": "低召回搜索后返回首页，验证空态不阻断后续操作。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "搜索",
+      "无结果",
+      "恢复"
+    ],
+    "params": {
+      "keyword": "mgtv_no_result_2026"
+    },
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "dismissCommonPopups",
+        "name": "关闭常见弹窗",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "searchKeyword",
+        "name": "搜索低召回词",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验空态或推荐兜底",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "暂无",
+          "换个词",
+          "猜你想搜这些",
+          "热搜榜",
+          "搜索",
+          "全部"
+        ],
+        "timeoutMs": 12000
+      },
+      {
+        "action": "back",
+        "name": "返回首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验首页恢复",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "刷片",
+          "首页测试",
+          "找片",
+          "搜索"
+        ]
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存无结果恢复截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "search-no-result-recover-home.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-vod-detail-long-scroll-modules",
+    "title": "点播详情长页模块深度回归",
+    "group": "点播页",
+    "priority": "P1",
+    "enabled": true,
+    "description": "详情页多段滑动，校验简介、选集、推荐、评论等模块。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "点播",
+      "详情",
+      "长页"
+    ],
+    "params": {
+      "keyword": "我的人间烟火"
+    },
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "dismissCommonPopups",
+        "name": "关闭常见弹窗",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "searchKeyword",
+        "name": "搜索内容",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验搜索结果承载",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "{{params.keyword}}",
+          "播放",
+          "相关影视作品",
+          "全部",
+          "热搜榜"
+        ],
+        "timeoutMs": 12000
+      },
+      {
+        "action": "openVodDetailFromResults",
+        "name": "进入详情页",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验详情页承载",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "{{params.keyword}}",
+          "选集",
+          "播放",
+          "简介",
+          "猜你喜欢"
+        ],
+        "timeoutMs": 12000
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验首屏信息",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "详情",
+          "选集",
+          "简介",
+          "播放"
+        ]
+      },
+      {
+        "action": "swipePercent",
+        "name": "滑到简介区域",
+        "expectedResult": "",
+        "actualResult": "",
+        "from": {
+          "x": 0.5,
+          "y": 0.78
+        },
+        "to": {
+          "x": 0.5,
+          "y": 0.25
+        }
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验简介或推荐",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "简介",
+          "看点",
+          "猜你喜欢",
+          "评论",
+          "更多"
+        ]
+      },
+      {
+        "action": "swipePercent",
+        "name": "继续滑动推荐流",
+        "expectedResult": "",
+        "actualResult": "",
+        "from": {
+          "x": 0.5,
+          "y": 0.78
+        },
+        "to": {
+          "x": 0.5,
+          "y": 0.25
+        }
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验底部模块",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "评论",
+          "猜你喜欢",
+          "推荐",
+          "播放"
+        ]
+      },
+      {
+        "action": "swipePercent",
+        "name": "回滑到上方",
+        "expectedResult": "",
+        "actualResult": "",
+        "from": {
+          "x": 0.5,
+          "y": 0.28
+        },
+        "to": {
+          "x": 0.5,
+          "y": 0.78
+        }
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存详情长页截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "vod-detail-long-scroll-modules.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-vod-detail-action-matrix",
+    "title": "点播详情按钮矩阵回归",
+    "group": "点播页",
+    "priority": "P1",
+    "enabled": true,
+    "description": "详情页收藏、缓存、分享、评论、简介等入口矩阵点击。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "点播",
+      "按钮矩阵",
+      "功能入口"
+    ],
+    "params": {
+      "keyword": "我的人间烟火"
+    },
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "dismissCommonPopups",
+        "name": "关闭常见弹窗",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "searchKeyword",
+        "name": "搜索内容",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验搜索结果承载",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "{{params.keyword}}",
+          "播放",
+          "相关影视作品",
+          "全部",
+          "热搜榜"
+        ],
+        "timeoutMs": 12000
+      },
+      {
+        "action": "openVodDetailFromResults",
+        "name": "进入详情页",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验详情页承载",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "{{params.keyword}}",
+          "选集",
+          "播放",
+          "简介",
+          "猜你喜欢"
+        ],
+        "timeoutMs": 12000
+      },
+      {
+        "action": "clickOptionalTexts",
+        "name": "第一组按钮巡检",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "追剧",
+          "预约",
+          "收藏",
+          "缓存",
+          "分享"
+        ],
+        "backAfterClick": true,
+        "saveArtifacts": true
+      },
+      {
+        "action": "clickOptionalTexts",
+        "name": "第二组按钮巡检",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "评论",
+          "简介",
+          "更多",
+          "猜你喜欢",
+          "相关"
+        ],
+        "backAfterClick": true,
+        "saveArtifacts": true
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验仍在详情页",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "{{params.keyword}}",
+          "选集",
+          "播放",
+          "简介"
+        ]
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存按钮矩阵截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "vod-detail-action-matrix.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-vod-episode-group-boundary",
+    "title": "点播选集分组边界回归",
+    "group": "点播页",
+    "priority": "P1",
+    "enabled": true,
+    "description": "校验选集分组、首集、中间集和边界入口。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "点播",
+      "选集",
+      "边界"
+    ],
+    "params": {
+      "keyword": "我的人间烟火"
+    },
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "dismissCommonPopups",
+        "name": "关闭常见弹窗",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "searchKeyword",
+        "name": "搜索内容",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验搜索结果承载",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "{{params.keyword}}",
+          "播放",
+          "相关影视作品",
+          "全部",
+          "热搜榜"
+        ],
+        "timeoutMs": 12000
+      },
+      {
+        "action": "openVodDetailFromResults",
+        "name": "进入详情页",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验详情页承载",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "{{params.keyword}}",
+          "选集",
+          "播放",
+          "简介",
+          "猜你喜欢"
+        ],
+        "timeoutMs": 12000
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验选集分组",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "选集",
+          "正片",
+          "开始：1-10",
+          "第1集"
+        ]
+      },
+      {
+        "action": "switchEpisode",
+        "name": "切换第1集",
+        "expectedResult": "",
+        "actualResult": "",
+        "episode": 1
+      },
+      {
+        "action": "switchEpisode",
+        "name": "切换第2集",
+        "expectedResult": "",
+        "actualResult": "",
+        "episode": 2
+      },
+      {
+        "action": "switchEpisode",
+        "name": "切换第5集",
+        "expectedResult": "",
+        "actualResult": "",
+        "episode": 5
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验切集后详情可用",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "播放",
+          "选集",
+          "暂停",
+          "全屏",
+          "第5集"
+        ]
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存选集边界截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "vod-episode-group-boundary.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-vod-related-recommendation-entry",
+    "title": "点播相关推荐入口回归",
+    "group": "点播页",
+    "priority": "P2",
+    "enabled": true,
+    "description": "从详情页滑动到相关推荐并尝试点击推荐内容入口。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "点播",
+      "推荐",
+      "跳转"
+    ],
+    "params": {
+      "keyword": "我的人间烟火"
+    },
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "dismissCommonPopups",
+        "name": "关闭常见弹窗",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "searchKeyword",
+        "name": "搜索内容",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验搜索结果承载",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "{{params.keyword}}",
+          "播放",
+          "相关影视作品",
+          "全部",
+          "热搜榜"
+        ],
+        "timeoutMs": 12000
+      },
+      {
+        "action": "openVodDetailFromResults",
+        "name": "进入详情页",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验详情页承载",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "{{params.keyword}}",
+          "选集",
+          "播放",
+          "简介",
+          "猜你喜欢"
+        ],
+        "timeoutMs": 12000
+      },
+      {
+        "action": "swipePercent",
+        "name": "滑到相关推荐区域",
+        "expectedResult": "",
+        "actualResult": "",
+        "from": {
+          "x": 0.5,
+          "y": 0.82
+        },
+        "to": {
+          "x": 0.5,
+          "y": 0.2
+        }
+      },
+      {
+        "action": "swipePercent",
+        "name": "继续滑动推荐区域",
+        "expectedResult": "",
+        "actualResult": "",
+        "from": {
+          "x": 0.5,
+          "y": 0.82
+        },
+        "to": {
+          "x": 0.5,
+          "y": 0.2
+        }
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验推荐模块",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "猜你喜欢",
+          "相关",
+          "推荐",
+          "播放",
+          "更多"
+        ]
+      },
+      {
+        "action": "clickOptionalTexts",
+        "name": "点击推荐入口",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "猜你喜欢",
+          "推荐",
+          "更多"
+        ],
+        "backAfterClick": true,
+        "saveArtifacts": true
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存相关推荐截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "vod-related-recommendation-entry.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-player-play-pause-resume",
+    "title": "播放器播放暂停恢复回归",
+    "group": "播放",
+    "priority": "P1",
+    "enabled": true,
+    "description": "进入播放态后唤起控制层，点击暂停/播放相关入口。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "播放",
+      "暂停",
+      "恢复"
+    ],
+    "params": {
+      "keyword": "我的人间烟火"
+    },
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "dismissCommonPopups",
+        "name": "关闭常见弹窗",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "searchKeyword",
+        "name": "搜索内容",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验搜索结果承载",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "{{params.keyword}}",
+          "播放",
+          "相关影视作品",
+          "全部",
+          "热搜榜"
+        ],
+        "timeoutMs": 12000
+      },
+      {
+        "action": "openVodDetailFromResults",
+        "name": "进入详情页",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验详情页承载",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "{{params.keyword}}",
+          "选集",
+          "播放",
+          "简介",
+          "猜你喜欢"
+        ],
+        "timeoutMs": 12000
+      },
+      {
+        "action": "playAndAssert",
+        "name": "进入播放态",
+        "expectedResult": "",
+        "actualResult": "",
+        "playTexts": [
+          "播放",
+          "立即播放",
+          "继续播放"
+        ],
+        "playingTexts": [
+          "暂停",
+          "全屏",
+          "广告",
+          "mediaControl fullscreen"
+        ]
+      },
+      {
+        "action": "tapPercent",
+        "name": "唤起控制层",
+        "expectedResult": "",
+        "actualResult": "",
+        "x": 0.5,
+        "y": 0.25
+      },
+      {
+        "action": "clickOptionalTexts",
+        "name": "暂停/播放入口巡检",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "暂停",
+          "播放",
+          "继续播放"
+        ],
+        "backAfterClick": false,
+        "saveArtifacts": true
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验播放控制仍可见",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "全屏",
+          "暂停",
+          "播放",
+          "倍速",
+          "广告",
+          "mediaControl fullscreen"
+        ]
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存播放暂停截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "player-play-pause-resume.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-player-episode-panel-entry",
+    "title": "播放器选集面板入口回归",
+    "group": "播放",
+    "priority": "P1",
+    "enabled": true,
+    "description": "播放态进入选集面板并校验集数入口。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "播放",
+      "选集",
+      "面板"
+    ],
+    "params": {
+      "keyword": "我的人间烟火"
+    },
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "dismissCommonPopups",
+        "name": "关闭常见弹窗",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "searchKeyword",
+        "name": "搜索内容",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验搜索结果承载",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "{{params.keyword}}",
+          "播放",
+          "相关影视作品",
+          "全部",
+          "热搜榜"
+        ],
+        "timeoutMs": 12000
+      },
+      {
+        "action": "openVodDetailFromResults",
+        "name": "进入详情页",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验详情页承载",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "{{params.keyword}}",
+          "选集",
+          "播放",
+          "简介",
+          "猜你喜欢"
+        ],
+        "timeoutMs": 12000
+      },
+      {
+        "action": "playAndAssert",
+        "name": "进入播放态",
+        "expectedResult": "",
+        "actualResult": "",
+        "playTexts": [
+          "播放",
+          "立即播放",
+          "继续播放"
+        ],
+        "playingTexts": [
+          "选集",
+          "全屏",
+          "暂停",
+          "广告"
+        ]
+      },
+      {
+        "action": "clickOptionalTexts",
+        "name": "打开选集入口",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "选集",
+          "剧集",
+          "下一集"
+        ],
+        "backAfterClick": false,
+        "saveArtifacts": true
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验选集面板",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "选集",
+          "第1集",
+          "第2集",
+          "正片",
+          "开始：1-10"
+        ]
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存选集面板截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "player-episode-panel-entry.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-player-quality-speed-panel",
+    "title": "播放器清晰度倍速面板回归",
+    "group": "播放",
+    "priority": "P1",
+    "enabled": true,
+    "description": "播放态进入全屏后校验清晰度和倍速入口。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "播放",
+      "清晰度",
+      "倍速"
+    ],
+    "params": {
+      "keyword": "我的人间烟火"
+    },
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "dismissCommonPopups",
+        "name": "关闭常见弹窗",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "searchKeyword",
+        "name": "搜索内容",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验搜索结果承载",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "{{params.keyword}}",
+          "播放",
+          "相关影视作品",
+          "全部",
+          "热搜榜"
+        ],
+        "timeoutMs": 12000
+      },
+      {
+        "action": "openVodDetailFromResults",
+        "name": "进入详情页",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验详情页承载",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "{{params.keyword}}",
+          "选集",
+          "播放",
+          "简介",
+          "猜你喜欢"
+        ],
+        "timeoutMs": 12000
+      },
+      {
+        "action": "playAndAssert",
+        "name": "进入播放态",
+        "expectedResult": "",
+        "actualResult": "",
+        "playTexts": [
+          "播放",
+          "立即播放",
+          "继续播放"
+        ],
+        "playingTexts": [
+          "全屏",
+          "暂停",
+          "广告",
+          "mediaControl fullscreen"
+        ]
+      },
+      {
+        "action": "enterFullscreen",
+        "name": "进入全屏",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "mediaControl fullscreen",
+          "全屏"
+        ],
+        "assertTexts": [
+          "倍速",
+          "清晰度",
+          "暂停",
+          "选集"
+        ]
+      },
+      {
+        "action": "clickOptionalTexts",
+        "name": "打开倍速清晰度入口",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "倍速",
+          "清晰度"
+        ],
+        "backAfterClick": false,
+        "saveArtifacts": true
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验面板内容",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "倍速",
+          "清晰度",
+          "1.0x",
+          "高清",
+          "超清",
+          "蓝光"
+        ]
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存倍速清晰度截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "player-quality-speed-panel.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-player-ad-control-resilience",
+    "title": "播放器广告态控制容错回归",
+    "group": "播放",
+    "priority": "P2",
+    "enabled": true,
+    "description": "播放进入广告态时验证控制层和截图采集不阻塞。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "播放",
+      "广告",
+      "容错"
+    ],
+    "params": {
+      "keyword": "我的人间烟火"
+    },
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "dismissCommonPopups",
+        "name": "关闭常见弹窗",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "searchKeyword",
+        "name": "搜索内容",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验搜索结果承载",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "{{params.keyword}}",
+          "播放",
+          "相关影视作品",
+          "全部",
+          "热搜榜"
+        ],
+        "timeoutMs": 12000
+      },
+      {
+        "action": "openVodDetailFromResults",
+        "name": "进入详情页",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验详情页承载",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "{{params.keyword}}",
+          "选集",
+          "播放",
+          "简介",
+          "猜你喜欢"
+        ],
+        "timeoutMs": 12000
+      },
+      {
+        "action": "playAndAssert",
+        "name": "进入播放/广告态",
+        "expectedResult": "",
+        "actualResult": "",
+        "playTexts": [
+          "播放",
+          "立即播放",
+          "继续播放"
+        ],
+        "playingTexts": [
+          "广告",
+          "跳过",
+          "暂停",
+          "全屏",
+          "mediaControl fullscreen"
+        ],
+        "timeoutMs": 18000
+      },
+      {
+        "action": "tapPercent",
+        "name": "点击播放器区域",
+        "expectedResult": "",
+        "actualResult": "",
+        "x": 0.5,
+        "y": 0.25
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验广告或播放控制",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "广告",
+          "跳过",
+          "暂停",
+          "全屏",
+          "播放"
+        ]
+      },
+      {
+        "action": "saveSource",
+        "name": "保存广告态源码",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "player-ad-control-resilience.xml"
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存广告态截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "player-ad-control-resilience.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-vip-open-page-deep-regression",
+    "title": "会员开通页深度回归",
+    "group": "会员页",
+    "priority": "P1",
+    "enabled": true,
+    "description": "进入会员页后校验开通、权益、协议等基础模块。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "会员",
+      "开通",
+      "权益"
+    ],
+    "params": {},
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "dismissCommonPopups",
+        "name": "关闭常见弹窗",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "clickAnyText",
+        "name": "进入会员入口",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "开通会员",
+          "会员",
+          "VIP"
+        ]
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验会员页首屏",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "VIP",
+          "会员",
+          "开通",
+          "权益",
+          "立即开通",
+          "登录"
+        ]
+      },
+      {
+        "action": "swipePercent",
+        "name": "会员页向上滑动",
+        "expectedResult": "",
+        "actualResult": "",
+        "from": {
+          "x": 0.5,
+          "y": 0.78
+        },
+        "to": {
+          "x": 0.5,
+          "y": 0.28
+        }
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验权益或套餐模块",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "权益",
+          "套餐",
+          "连续包月",
+          "协议",
+          "支付",
+          "开通"
+        ]
+      },
+      {
+        "action": "clickOptionalTexts",
+        "name": "会员页入口巡检",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "立即开通",
+          "登录",
+          "协议",
+          "权益"
+        ],
+        "backAfterClick": true,
+        "saveArtifacts": true
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存会员深度截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "vip-open-page-deep.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-vip-login-guard-regression",
+    "title": "会员登录保护回归",
+    "group": "会员页",
+    "priority": "P2",
+    "enabled": true,
+    "description": "会员相关入口触发登录/开通保护时，校验页面可返回。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "会员",
+      "登录",
+      "保护"
+    ],
+    "params": {},
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "dismissCommonPopups",
+        "name": "关闭常见弹窗",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "clickAnyText",
+        "name": "进入会员或 VIP",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "VIP",
+          "会员",
+          "开通会员"
+        ]
+      },
+      {
+        "action": "clickOptionalTexts",
+        "name": "触发登录保护入口",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "立即开通",
+          "登录",
+          "领取",
+          "权益"
+        ],
+        "backAfterClick": true,
+        "saveArtifacts": true
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验仍可恢复",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "VIP",
+          "会员",
+          "开通",
+          "登录",
+          "首页"
+        ]
+      },
+      {
+        "action": "back",
+        "name": "返回首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验首页可用",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "刷片",
+          "首页测试",
+          "找片",
+          "搜索"
+        ]
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存登录保护截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "vip-login-guard.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-topic-activity-scroll-share",
+    "title": "专题活动页滑动分享回归",
+    "group": "专题页",
+    "priority": "P1",
+    "enabled": true,
+    "description": "专题/活动页进入后执行滑动和分享等入口巡检。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "专题",
+      "活动",
+      "分享"
+    ],
+    "params": {},
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "dismissCommonPopups",
+        "name": "关闭常见弹窗",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "clickAnyText",
+        "name": "进入专题活动入口",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "专题",
+          "活动",
+          "更多",
+          "芒果专题",
+          "更多乐高"
+        ]
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验专题承载",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "专题",
+          "活动",
+          "推荐",
+          "更多",
+          "乐高",
+          "返回"
+        ]
+      },
+      {
+        "action": "swipePercent",
+        "name": "专题页向上滑动",
+        "expectedResult": "",
+        "actualResult": "",
+        "from": {
+          "x": 0.5,
+          "y": 0.78
+        },
+        "to": {
+          "x": 0.5,
+          "y": 0.22
+        }
+      },
+      {
+        "action": "clickOptionalTexts",
+        "name": "专题页入口巡检",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "分享",
+          "更多",
+          "推荐",
+          "播放"
+        ],
+        "backAfterClick": true,
+        "saveArtifacts": true
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存专题活动截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "topic-activity-scroll-share.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-topic-content-entry-regression",
+    "title": "专题内容入口跳转回归",
+    "group": "专题页",
+    "priority": "P2",
+    "enabled": true,
+    "description": "专题页内容区尝试进入内容详情，验证可达和可返回。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "专题",
+      "内容入口",
+      "跳转"
+    ],
+    "params": {},
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "dismissCommonPopups",
+        "name": "关闭常见弹窗",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "clickAnyText",
+        "name": "进入专题页",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "专题",
+          "活动",
+          "更多",
+          "芒果专题",
+          "更多乐高"
+        ]
+      },
+      {
+        "action": "swipePercent",
+        "name": "滑到内容区",
+        "expectedResult": "",
+        "actualResult": "",
+        "from": {
+          "x": 0.5,
+          "y": 0.78
+        },
+        "to": {
+          "x": 0.5,
+          "y": 0.22
+        }
+      },
+      {
+        "action": "clickOptionalTexts",
+        "name": "点击内容入口",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "播放",
+          "立即观看",
+          "更多",
+          "推荐"
+        ],
+        "backAfterClick": true,
+        "saveArtifacts": true
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验专题页仍可用",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "专题",
+          "活动",
+          "推荐",
+          "更多",
+          "返回"
+        ]
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存专题内容入口截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "topic-content-entry.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-short-drama-channel-regression",
+    "title": "短剧频道深度回归",
+    "group": "频道页",
+    "priority": "P1",
+    "enabled": true,
+    "description": "进入短剧频道后滑动、点击和返回校验。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "频道",
+      "短剧",
+      "滑动"
+    ],
+    "params": {},
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "dismissCommonPopups",
+        "name": "关闭常见弹窗",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "clickAnyText",
+        "name": "进入短剧频道",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "短剧",
+          "微短剧"
+        ]
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验短剧频道",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "短剧",
+          "播放",
+          "热播",
+          "推荐",
+          "更多"
+        ]
+      },
+      {
+        "action": "swipePercent",
+        "name": "短剧频道滑动",
+        "expectedResult": "",
+        "actualResult": "",
+        "from": {
+          "x": 0.5,
+          "y": 0.78
+        },
+        "to": {
+          "x": 0.5,
+          "y": 0.22
+        }
+      },
+      {
+        "action": "clickOptionalTexts",
+        "name": "短剧内容入口巡检",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "播放",
+          "更多",
+          "推荐"
+        ],
+        "backAfterClick": true,
+        "saveArtifacts": true
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存短剧频道截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "short-drama-channel.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-variety-channel-regression",
+    "title": "综艺频道深度回归",
+    "group": "频道页",
+    "priority": "P1",
+    "enabled": true,
+    "description": "进入综艺频道，校验频道信息流和内容入口。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "频道",
+      "综艺",
+      "滑动"
+    ],
+    "params": {},
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "dismissCommonPopups",
+        "name": "关闭常见弹窗",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "clickAnyText",
+        "name": "进入综艺频道",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "综艺"
+        ]
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验综艺频道",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "综艺",
+          "歌手",
+          "播放",
+          "热播",
+          "推荐"
+        ]
+      },
+      {
+        "action": "swipePercent",
+        "name": "综艺频道滑动",
+        "expectedResult": "",
+        "actualResult": "",
+        "from": {
+          "x": 0.5,
+          "y": 0.78
+        },
+        "to": {
+          "x": 0.5,
+          "y": 0.22
+        }
+      },
+      {
+        "action": "clickOptionalTexts",
+        "name": "综艺入口巡检",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "播放",
+          "歌手",
+          "更多",
+          "推荐"
+        ],
+        "backAfterClick": true,
+        "saveArtifacts": true
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存综艺频道截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "variety-channel.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-drama-channel-regression",
+    "title": "电视剧频道深度回归",
+    "group": "频道页",
+    "priority": "P1",
+    "enabled": true,
+    "description": "进入电视剧频道，校验推荐和内容详情入口。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "频道",
+      "电视剧",
+      "滑动"
+    ],
+    "params": {},
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "dismissCommonPopups",
+        "name": "关闭常见弹窗",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "clickAnyText",
+        "name": "进入电视剧频道",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "电视剧"
+        ]
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验电视剧频道",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "电视剧",
+          "播放",
+          "热播",
+          "推荐",
+          "更多"
+        ]
+      },
+      {
+        "action": "swipePercent",
+        "name": "电视剧频道滑动",
+        "expectedResult": "",
+        "actualResult": "",
+        "from": {
+          "x": 0.5,
+          "y": 0.78
+        },
+        "to": {
+          "x": 0.5,
+          "y": 0.22
+        }
+      },
+      {
+        "action": "clickOptionalTexts",
+        "name": "电视剧入口巡检",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "播放",
+          "更多",
+          "推荐"
+        ],
+        "backAfterClick": true,
+        "saveArtifacts": true
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存电视剧频道截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "drama-channel.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-resume-after-back-stack",
+    "title": "返回栈恢复能力回归",
+    "group": "稳定性",
+    "priority": "P1",
+    "enabled": true,
+    "description": "穿越搜索、详情、播放后多次返回，验证页面状态恢复。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "稳定性",
+      "返回栈",
+      "恢复"
+    ],
+    "params": {
+      "keyword": "歌手"
+    },
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "dismissCommonPopups",
+        "name": "关闭常见弹窗",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "searchKeyword",
+        "name": "搜索内容",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验搜索结果承载",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "{{params.keyword}}",
+          "播放",
+          "相关影视作品",
+          "全部",
+          "热搜榜"
+        ],
+        "timeoutMs": 12000
+      },
+      {
+        "action": "openVodDetailFromResults",
+        "name": "进入详情页",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验详情页承载",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "{{params.keyword}}",
+          "选集",
+          "播放",
+          "简介",
+          "猜你喜欢"
+        ],
+        "timeoutMs": 12000
+      },
+      {
+        "action": "playAndAssert",
+        "name": "进入播放态",
+        "expectedResult": "",
+        "actualResult": "",
+        "playTexts": [
+          "播放",
+          "立即播放",
+          "继续播放"
+        ],
+        "playingTexts": [
+          "暂停",
+          "全屏",
+          "广告",
+          "mediaControl fullscreen"
+        ]
+      },
+      {
+        "action": "back",
+        "name": "从播放返回详情或搜索",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "back",
+        "name": "继续返回搜索或首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验返回后页面可用",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "搜索",
+          "首页",
+          "刷片",
+          "播放",
+          "{{params.keyword}}"
+        ]
+      },
+      {
+        "action": "relaunchToHome",
+        "name": "最终回首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验首页恢复",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "刷片",
+          "首页测试",
+          "找片",
+          "搜索"
+        ]
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存返回栈截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "resume-after-back-stack.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-popup-dismiss-regression",
+    "title": "通用弹窗关闭稳定性回归",
+    "group": "稳定性",
+    "priority": "P1",
+    "enabled": true,
+    "description": "多次执行常见弹窗关闭和页面校验，避免弹窗阻断主链路。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "稳定性",
+      "弹窗",
+      "恢复"
+    ],
+    "params": {},
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "dismissCommonPopups",
+        "name": "关闭常见弹窗",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "dismissCommonPopups",
+        "name": "再次关闭弹窗",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验首页未被阻断",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "刷片",
+          "首页测试",
+          "找片",
+          "搜索",
+          "VIP"
+        ]
+      },
+      {
+        "action": "swipePercent",
+        "name": "滑动触发懒加载",
+        "expectedResult": "",
+        "actualResult": "",
+        "from": {
+          "x": 0.5,
+          "y": 0.78
+        },
+        "to": {
+          "x": 0.5,
+          "y": 0.25
+        }
+      },
+      {
+        "action": "dismissCommonPopups",
+        "name": "滑动后关闭可能弹窗",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验仍可操作",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "播放",
+          "推荐",
+          "首页",
+          "搜索",
+          "更多"
+        ]
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存弹窗稳定性截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "popup-dismiss-regression.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-network-slow-ui-resilience",
+    "title": "慢响应 UI 容错回归",
+    "group": "稳定性",
+    "priority": "P2",
+    "enabled": true,
+    "description": "通过等待和重复校验模拟慢响应，验证页面不白屏。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "稳定性",
+      "容错",
+      "等待"
+    ],
+    "params": {
+      "keyword": "大侦探"
+    },
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "dismissCommonPopups",
+        "name": "关闭常见弹窗",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "sleep",
+        "name": "首页稳定等待",
+        "expectedResult": "",
+        "actualResult": "",
+        "ms": 1500
+      },
+      {
+        "action": "searchKeyword",
+        "name": "搜索内容",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "sleep",
+        "name": "等待结果加载",
+        "expectedResult": "",
+        "actualResult": "",
+        "ms": 2000
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验慢响应后结果",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "{{params.keyword}}",
+          "播放",
+          "相关影视作品",
+          "热搜榜",
+          "全部"
+        ],
+        "timeoutMs": 15000
+      },
+      {
+        "action": "swipePercent",
+        "name": "结果页滑动",
+        "expectedResult": "",
+        "actualResult": "",
+        "from": {
+          "x": 0.5,
+          "y": 0.78
+        },
+        "to": {
+          "x": 0.5,
+          "y": 0.25
+        }
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存慢响应截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "network-slow-ui-resilience.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-artifact-capture-smoke",
+    "title": "源码截图产物采集冒烟",
+    "group": "稳定性",
+    "priority": "P1",
+    "enabled": true,
+    "description": "围绕搜索结果页采集截图和 XML，验证回归产物链路。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "稳定性",
+      "产物",
+      "截图"
+    ],
+    "params": {
+      "keyword": "歌手"
+    },
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "dismissCommonPopups",
+        "name": "关闭常见弹窗",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "searchKeyword",
+        "name": "搜索内容",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验结果页",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "{{params.keyword}}",
+          "播放",
+          "相关影视作品",
+          "全部"
+        ]
+      },
+      {
+        "action": "saveSource",
+        "name": "保存结果页源码",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "artifact-capture-smoke.xml"
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存结果页截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "artifact-capture-smoke.png"
+      },
+      {
+        "action": "back",
+        "name": "返回首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存返回后截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "artifact-capture-home.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-player-gesture-suite",
+    "title": "播放器双击、长按、拖进度条核心手势回归",
+    "group": "播放",
+    "priority": "P0",
+    "enabled": true,
+    "description": "从详情页进入播放态后，覆盖右侧双击快进、左侧双击快退、长按播放器、拖动进度条和控制层校验。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "播放",
+      "手势",
+      "进度条",
+      "核心业务"
+    ],
+    "params": {
+      "keyword": "我的人间烟火"
+    },
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "dismissCommonPopups",
+        "name": "关闭常见弹窗",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "searchKeyword",
+        "name": "搜索内容",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "openVodDetailFromResults",
+        "name": "进入详情页",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "playAndAssert",
+        "name": "播放并校验播放态",
+        "expectedResult": "",
+        "actualResult": "",
+        "playTexts": [
+          "播放",
+          "立即播放",
+          "继续播放"
+        ],
+        "playingTexts": [
+          "暂停",
+          "全屏",
+          "倍速",
+          "选集",
+          "清晰度"
+        ]
+      },
+      {
+        "action": "waitAndCloseAd",
+        "name": "等待并关闭广告",
+        "expectedResult": "",
+        "actualResult": "",
+        "timeoutMs": 12000,
+        "required": false,
+        "saveArtifacts": true
+      },
+      {
+        "action": "enterFullscreen",
+        "name": "进入全屏",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "mediaControl fullscreen",
+          "全屏"
+        ],
+        "assertTexts": [
+          "倍速",
+          "清晰度",
+          "选集",
+          "暂停"
+        ]
+      },
+      {
+        "action": "playerGestureSuite",
+        "name": "双击/长按/拖动进度条",
+        "expectedResult": "",
+        "actualResult": "",
+        "gestures": [
+          "doubleTapRight",
+          "doubleTapLeft",
+          "longPress",
+          "dragProgress"
+        ],
+        "assertTexts": [
+          "暂停",
+          "倍速",
+          "清晰度",
+          "选集"
+        ],
+        "saveArtifacts": true
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-player-doubletap-forward-back",
+    "title": "播放器左右双击快进快退回归",
+    "group": "播放",
+    "priority": "P1",
+    "enabled": true,
+    "description": "进入全屏播放器后分别双击右侧和左侧区域，覆盖短视频和长视频常见播放手势。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "播放",
+      "双击",
+      "快进快退"
+    ],
+    "params": {
+      "keyword": "歌手"
+    },
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "dismissCommonPopups",
+        "name": "关闭常见弹窗",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "searchKeyword",
+        "name": "搜索内容",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "openVodDetailFromResults",
+        "name": "进入详情页",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "playAndAssert",
+        "name": "播放并校验",
+        "expectedResult": "",
+        "actualResult": "",
+        "playTexts": [
+          "播放",
+          "立即播放",
+          "继续播放"
+        ],
+        "playingTexts": [
+          "暂停",
+          "全屏",
+          "倍速"
+        ]
+      },
+      {
+        "action": "enterFullscreen",
+        "name": "进入全屏",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "mediaControl fullscreen",
+          "全屏"
+        ],
+        "assertTexts": [
+          "暂停",
+          "倍速",
+          "清晰度"
+        ]
+      },
+      {
+        "action": "doubleTapPercent",
+        "name": "右侧双击快进",
+        "expectedResult": "",
+        "actualResult": "",
+        "x": 0.72,
+        "y": 0.5,
+        "waitMs": 900
+      },
+      {
+        "action": "doubleTapPercent",
+        "name": "左侧双击快退",
+        "expectedResult": "",
+        "actualResult": "",
+        "x": 0.28,
+        "y": 0.5,
+        "waitMs": 900
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存双击后截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "player-doubletap-forward-back.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-player-longpress-speed",
+    "title": "播放器长按倍速/控制层回归",
+    "group": "播放",
+    "priority": "P1",
+    "enabled": true,
+    "description": "播放态长按播放器中心区域，校验长按倍速或控制层不会异常阻断播放。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "播放",
+      "长按",
+      "倍速"
+    ],
+    "params": {
+      "keyword": "大侦探"
+    },
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "dismissCommonPopups",
+        "name": "关闭常见弹窗",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "searchKeyword",
+        "name": "搜索内容",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "openVodDetailFromResults",
+        "name": "进入详情页",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "playAndAssert",
+        "name": "播放并校验",
+        "expectedResult": "",
+        "actualResult": "",
+        "playTexts": [
+          "播放",
+          "立即播放",
+          "继续播放"
+        ],
+        "playingTexts": [
+          "暂停",
+          "全屏",
+          "倍速"
+        ]
+      },
+      {
+        "action": "enterFullscreen",
+        "name": "进入全屏",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "mediaControl fullscreen",
+          "全屏"
+        ],
+        "assertTexts": [
+          "暂停",
+          "倍速",
+          "清晰度"
+        ]
+      },
+      {
+        "action": "longPressPercent",
+        "name": "长按播放器中心",
+        "expectedResult": "",
+        "actualResult": "",
+        "x": 0.5,
+        "y": 0.5,
+        "durationMs": 900,
+        "waitMs": 1000
+      },
+      {
+        "action": "assertAnyText",
+        "name": "校验仍在播放上下文",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "暂停",
+          "倍速",
+          "清晰度",
+          "选集"
+        ],
+        "required": false
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-player-progress-drag",
+    "title": "播放器进度条拖动回归",
+    "group": "播放",
+    "priority": "P0",
+    "enabled": true,
+    "description": "全屏播放态唤起控制层并拖动进度条，校验播放进度拖动后页面仍可交互。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "播放",
+      "进度条",
+      "拖动"
+    ],
+    "params": {
+      "keyword": "乘风"
+    },
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "dismissCommonPopups",
+        "name": "关闭常见弹窗",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "searchKeyword",
+        "name": "搜索内容",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "openVodDetailFromResults",
+        "name": "进入详情页",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "playAndAssert",
+        "name": "播放并校验",
+        "expectedResult": "",
+        "actualResult": "",
+        "playTexts": [
+          "播放",
+          "立即播放",
+          "继续播放"
+        ],
+        "playingTexts": [
+          "暂停",
+          "全屏",
+          "倍速"
+        ]
+      },
+      {
+        "action": "enterFullscreen",
+        "name": "进入全屏",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "mediaControl fullscreen",
+          "全屏"
+        ],
+        "assertTexts": [
+          "暂停",
+          "倍速",
+          "清晰度"
+        ]
+      },
+      {
+        "action": "dragProgressBar",
+        "name": "拖动播放进度条",
+        "expectedResult": "",
+        "actualResult": "",
+        "from": {
+          "x": 0.32,
+          "y": 0.84
+        },
+        "to": {
+          "x": 0.68,
+          "y": 0.84
+        },
+        "assertTexts": [
+          "暂停",
+          "倍速",
+          "清晰度"
+        ],
+        "saveArtifacts": true
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-ad-wait-close-player",
+    "title": "播放广告等待与关闭回归",
+    "group": "播放",
+    "priority": "P1",
+    "enabled": true,
+    "description": "进入播放后等待广告、跳过、会员免广告等弹层，识别关闭控件并回到播放上下文。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "播放",
+      "广告",
+      "弹窗"
+    ],
+    "params": {
+      "keyword": "歌手"
+    },
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "dismissCommonPopups",
+        "name": "关闭常见弹窗",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "searchKeyword",
+        "name": "搜索内容",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "openVodDetailFromResults",
+        "name": "进入详情页",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "playAndAssert",
+        "name": "点击播放",
+        "expectedResult": "",
+        "actualResult": "",
+        "playTexts": [
+          "播放",
+          "立即播放",
+          "继续播放"
+        ],
+        "playingTexts": [
+          "暂停",
+          "全屏",
+          "倍速"
+        ],
+        "required": false
+      },
+      {
+        "action": "waitAndCloseAd",
+        "name": "等待并关闭广告",
+        "expectedResult": "",
+        "actualResult": "",
+        "timeoutMs": 15000,
+        "texts": [
+          "广告",
+          "跳过",
+          "会员免广告",
+          "倒计时"
+        ],
+        "required": false,
+        "saveArtifacts": true
+      },
+      {
+        "action": "assertAnyText",
+        "name": "播放上下文未阻断",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "暂停",
+          "全屏",
+          "倍速",
+          "选集",
+          "清晰度"
+        ],
+        "required": false
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-vip-cashier-readonly",
+    "title": "会员收银台入口只读回归",
+    "group": "会员页",
+    "priority": "P0",
+    "enabled": true,
+    "description": "从会员入口打开收银台并校验支付方式/会员权益文案，仅做展示校验，不点击确认支付。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "会员",
+      "收银台",
+      "支付页",
+      "核心业务"
+    ],
+    "params": {},
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "dismissCommonPopups",
+        "name": "关闭常见弹窗",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "clickAnyText",
+        "name": "进入会员入口",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "开通会员",
+          "会员",
+          "VIP"
+        ]
+      },
+      {
+        "action": "assertAnyText",
+        "name": "会员页基础校验",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "VIP",
+          "会员",
+          "开通",
+          "权益",
+          "登录"
+        ]
+      },
+      {
+        "action": "openCashierAndAssert",
+        "name": "打开收银台并校验",
+        "expectedResult": "",
+        "actualResult": "",
+        "entryTexts": [
+          "立即开通",
+          "开通会员",
+          "会员免广告",
+          "VIP"
+        ],
+        "texts": [
+          "收银台",
+          "微信支付",
+          "支付宝",
+          "连续包月",
+          "会员权益"
+        ],
+        "closeAfterAssert": true,
+        "saveArtifacts": true,
+        "required": false
+      },
+      {
+        "action": "closeOrBack",
+        "name": "关闭/返回会员页",
+        "expectedResult": "",
+        "actualResult": "",
+        "includeClose": true,
+        "includeBack": true,
+        "fallback": true,
+        "required": false
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-vod-ad-vip-combined-business",
+    "title": "点播播放广告会员组合链路回归",
+    "group": "核心链路",
+    "priority": "P0",
+    "enabled": true,
+    "description": "覆盖点播详情、播放、广告处理、会员入口/收银台展示和返回的组合业务链路。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "核心链路",
+      "点播",
+      "播放",
+      "会员"
+    ],
+    "params": {
+      "keyword": "我的人间烟火"
+    },
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "dismissCommonPopups",
+        "name": "关闭常见弹窗",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "searchKeyword",
+        "name": "搜索内容",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "openVodDetailFromResults",
+        "name": "进入详情页",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "assertAnyText",
+        "name": "详情页模块校验",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "{{params.keyword}}",
+          "选集",
+          "简介",
+          "播放"
+        ]
+      },
+      {
+        "action": "playAndAssert",
+        "name": "播放并校验",
+        "expectedResult": "",
+        "actualResult": "",
+        "playTexts": [
+          "播放",
+          "立即播放",
+          "继续播放"
+        ],
+        "playingTexts": [
+          "暂停",
+          "全屏",
+          "倍速",
+          "选集",
+          "清晰度"
+        ]
+      },
+      {
+        "action": "waitAndCloseAd",
+        "name": "广告处理",
+        "expectedResult": "",
+        "actualResult": "",
+        "timeoutMs": 12000,
+        "required": false,
+        "saveArtifacts": true
+      },
+      {
+        "action": "openCashierAndAssert",
+        "name": "会员收银台观察",
+        "expectedResult": "",
+        "actualResult": "",
+        "entryTexts": [
+          "会员免广告",
+          "开通会员",
+          "立即开通",
+          "VIP"
+        ],
+        "texts": [
+          "收银台",
+          "微信支付",
+          "支付宝",
+          "连续包月",
+          "会员权益"
+        ],
+        "closeAfterAssert": true,
+        "saveArtifacts": true,
+        "required": false
+      },
+      {
+        "action": "closeOrBack",
+        "name": "返回详情或播放页",
+        "expectedResult": "",
+        "actualResult": "",
+        "includeClose": true,
+        "includeBack": true,
+        "fallback": true,
+        "required": false
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-fullscreen-control-richness",
+    "title": "全屏控制层入口丰富度回归",
+    "group": "播放",
+    "priority": "P1",
+    "enabled": true,
+    "description": "进入全屏后校验倍速、清晰度、选集、弹幕等视频 App 常见控制入口，并保存截图。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "播放",
+      "全屏",
+      "控制层"
+    ],
+    "params": {
+      "keyword": "我的人间烟火"
+    },
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "回到首页",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "dismissCommonPopups",
+        "name": "关闭常见弹窗",
+        "expectedResult": "",
+        "actualResult": ""
+      },
+      {
+        "action": "searchKeyword",
+        "name": "搜索内容",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "openVodDetailFromResults",
+        "name": "进入详情页",
+        "expectedResult": "",
+        "actualResult": "",
+        "keyword": "{{params.keyword}}"
+      },
+      {
+        "action": "playAndAssert",
+        "name": "播放并校验",
+        "expectedResult": "",
+        "actualResult": "",
+        "playTexts": [
+          "播放",
+          "立即播放",
+          "继续播放"
+        ],
+        "playingTexts": [
+          "暂停",
+          "全屏",
+          "倍速"
+        ]
+      },
+      {
+        "action": "enterFullscreen",
+        "name": "进入全屏",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "mediaControl fullscreen",
+          "全屏"
+        ],
+        "assertTexts": [
+          "倍速",
+          "清晰度",
+          "选集",
+          "暂停"
+        ]
+      },
+      {
+        "action": "clickOptionalTexts",
+        "name": "全屏入口巡检",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "倍速",
+          "清晰度",
+          "选集",
+          "弹幕"
+        ],
+        "backAfterClick": true,
+        "saveArtifacts": true
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存全屏控制层截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "fullscreen-control-richness.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-startup-ad-cold-warm-regression",
+    "title": "冷启动与温启动广告等待回归",
+    "group": "稳定性",
+    "priority": "P0",
+    "enabled": true,
+    "description": "覆盖 APP 冷启动约 5s 开机广告等待、温启动后台 3s 后再次出现广告的等待与关闭，避免后续动作被广告阻断。",
+    "expectedResult": "",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "启动",
+      "广告",
+      "稳定性",
+      "核心业务"
+    ],
+    "params": {},
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "冷启动并等待广告",
+        "expectedResult": "",
+        "actualResult": "",
+        "timeoutMs": 6500,
+        "saveStartupAdArtifacts": true
+      },
+      {
+        "action": "assertAnyText",
+        "name": "冷启动后首页可见",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "刷片",
+          "首页测试",
+          "找片",
+          "搜索"
+        ],
+        "required": false,
+        "budgetMs": 1000
+      },
+      {
+        "action": "warmStart",
+        "name": "后台 3s 温启动并等待广告",
+        "expectedResult": "",
+        "actualResult": "",
+        "backgroundSeconds": 3,
+        "timeoutMs": 6500,
+        "saveStartupAdArtifacts": true
+      },
+      {
+        "action": "assertAnyText",
+        "name": "温启动后业务页可继续",
+        "expectedResult": "",
+        "actualResult": "",
+        "texts": [
+          "刷片",
+          "首页测试",
+          "找片",
+          "搜索",
+          "暂停",
+          "全屏"
+        ],
+        "required": false,
+        "budgetMs": 1000
+      },
+      {
+        "action": "saveScreenshot",
+        "name": "保存启动广告处理后截图",
+        "expectedResult": "",
+        "actualResult": "",
+        "filename": "startup-ad-cold-warm-regression.png"
+      }
+    ],
+    "createdAt": "2026-05-14T00:00:00.000Z",
+    "updatedAt": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "mgtv-cold-start-ad-skip-repeat",
+    "title": "冷启动广告跳过稳定性重复回归",
+    "group": "稳定性",
+    "priority": "P0",
+    "enabled": true,
+    "description": "重复冷启动芒果TV：每轮关闭 App 后等待 5 秒再启动，优先识别右上角跳过/跳过广告倒计时按钮并立即关闭；看到首页锚点或 App 回到可采集页面后，回到后台 0.5 秒、再回前台并立即杀掉 App，然后进入下一轮。",
+    "expectedResult": "每次冷启动必须先关闭 App 并等待 5 秒；如出现开屏广告，应优先点击右上角跳过按钮；看到首页内容或 App 可采集页面后，先后台 0.5 秒再回前台，然后立刻关闭 App 准备下一轮。",
+    "actualResult": "",
+    "coverImage": "",
+    "tags": [
+      "启动",
+      "广告",
+      "跳过",
+      "重复回归",
+      "稳定性"
+    ],
+    "params": {
+      "suggestedRepeat": 100
+    },
+    "steps": [
+      {
+        "action": "relaunchToHome",
+        "name": "冷启动到首页即结束",
+        "expectedResult": "App 关闭 5 秒后重新启动，如右上角出现“跳过/跳过广告/跳过 4”等倒计时按钮立即点击；看到首页锚点或 App 可采集页面后，回到后台 0.5 秒、再回前台并立即杀掉 App，不点击首页内部卡片或按钮。",
+        "actualResult": "",
+        "timeoutMs": 12000,
+        "sourceTimeoutMs": 6500,
+        "afterActivateMs": 1200,
+        "skipProbeCount": 2,
+        "skipProbeIntervalMs": 700,
+        "afterSkipMs": 900,
+        "screenshotTimeoutMs": 5000,
+        "afterTerminateMs": 5000,
+        "skipTexts": [
+          "跳过",
+          "跳过广告"
+        ],
+        "homeTexts": [
+          "刷片",
+          "首页测试",
+          "找片",
+          "搜索",
+          "会员",
+          "好片",
+          "标签页栏"
+        ],
+        "passOnAppVisible": true,
+        "passOnScreenshot": true,
+        "backgroundBeforeNext": true,
+        "backgroundSeconds": 0.5,
+        "afterBackgroundReturnMs": 0,
+        "afterForegroundMs": 100,
+        "terminateAfterCycle": true,
+        "autoRecover": false,
+        "saveFailureArtifacts": false
+      }
+    ],
+    "createdAt": "2026-05-20T08:20:04.540Z",
+    "updatedAt": "2026-05-22T06:22:32.510Z"
+  }
+]

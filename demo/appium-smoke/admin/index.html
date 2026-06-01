@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MGTV iOS 测试控制台</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <strong>MGTV iOS 测试控制台</strong>
+          <span>用例编排 · 真机画面 · 批量回归</span>
+        </div>
+        <div class="topbar-actions">
+          <button id="newCaseButton" type="button">新建</button>
+          <button id="duplicateButton" type="button">复制</button>
+          <button id="copyCaseJsonButton" type="button">复制 JSON</button>
+          <button id="saveButton" class="primary" type="button">保存</button>
+        </div>
+      </header>
+
+      <section class="metric-strip" aria-label="测试概览">
+        <div class="metric-card">
+          <span>用例总数</span>
+          <strong id="totalCaseMetric">0</strong>
+          <em id="enabledCaseMetric">0 启用</em>
+        </div>
+        <div class="metric-card">
+          <span>P0/P1 覆盖</span>
+          <strong id="priorityMetric">0</strong>
+          <em>核心回归资产</em>
+        </div>
+        <div class="metric-card">
+          <span>历史成功率</span>
+          <strong id="successMetric">-</strong>
+          <em id="sampleMetric">0 样本</em>
+        </div>
+        <div class="metric-card">
+          <span>全量回归</span>
+          <strong id="allRunMetric">未运行</strong>
+          <em id="allRunMetricSub">等待运行全部</em>
+        </div>
+      </section>
+
+      <section class="workspace">
+        <aside class="suite-nav">
+          <div class="nav-block library-workspace">
+            <div class="block-head">
+              <strong>用例库</strong>
+              <button id="selectVisibleButton" type="button">选中当前</button>
+            </div>
+            <label class="search-field">
+              <span>搜索</span>
+              <input id="filterInput" type="search" placeholder="标题 / 分组 / 标签 / 描述" />
+            </label>
+            <div class="library-layout">
+              <section class="primary-tabs">
+                <div class="pane-title">
+                  <strong>一级分类</strong>
+                </div>
+                <div id="groupTabs" class="group-tabs"></div>
+              </section>
+              <section class="case-pane">
+                <div class="pane-title">
+                  <strong>二级用例</strong>
+                  <span id="visibleCaseCount">0</span>
+                </div>
+                <div id="caseList" class="case-list"></div>
+              </section>
+            </div>
+          </div>
+        </aside>
+
+        <section class="main-stage">
+          <div class="stage-head">
+            <div>
+              <p id="statusText">加载中</p>
+              <h1 id="editorTitle">选择一个用例</h1>
+            </div>
+            <div class="runbar">
+              <label class="run-repeat-field">
+                <span>重复</span>
+                <input id="runRepeatInput" type="number" min="1" max="10000" value="1" />
+                <em>最多10000次</em>
+              </label>
+              <button id="runSelectedButton" class="primary" type="button">运行当前</button>
+              <button id="runSelected100Button" type="button">当前100次</button>
+              <button id="runAllButton" type="button">运行全部</button>
+              <button id="runCheckedButton" type="button">运行勾选</button>
+              <button id="runGroupButton" type="button">运行分组</button>
+              <button id="pauseRunButton" class="warning" type="button" disabled>暂停执行</button>
+              <button id="deleteButton" class="danger" type="button">删除</button>
+            </div>
+          </div>
+
+          <div class="stage-grid">
+            <section class="panel case-form-panel">
+              <div class="panel-title">
+                <div>
+                  <strong>用例定义</strong>
+                  <span>业务信息、参数、参考图片</span>
+                </div>
+              </div>
+              <div class="fields">
+                <label class="wide-2">
+                  <span>标题</span>
+                  <input id="titleInput" />
+                </label>
+                <label>
+                  <span>分组</span>
+                  <input id="groupInput" list="groupOptions" />
+                  <datalist id="groupOptions">
+                    <option value="核心链路"></option>
+                    <option value="首页"></option>
+                    <option value="搜索"></option>
+                    <option value="点播页"></option>
+                    <option value="播放"></option>
+                    <option value="专题页"></option>
+                    <option value="会员页"></option>
+                  </datalist>
+                </label>
+                <label>
+                  <span>优先级</span>
+                  <select id="priorityInput">
+                    <option>P0</option>
+                    <option>P1</option>
+                    <option>P2</option>
+                  </select>
+                </label>
+                <label class="switch">
+                  <input id="enabledInput" type="checkbox" />
+                  <span>启用</span>
+                </label>
+                <label class="wide-2">
+                  <span>标签</span>
+                  <input id="tagsInput" placeholder="搜索, 冒烟, 全屏" />
+                </label>
+                <label class="wide-2">
+                  <span>描述</span>
+                  <textarea id="descriptionInput" rows="3"></textarea>
+                </label>
+                <label class="wide-2">
+                  <span>预期结果</span>
+                  <textarea id="expectedResultInput" rows="3" placeholder="例如：进入详情页后能看到标题、标签、选集分组，点击播放后出现播放控制层。"></textarea>
+                </label>
+                <label class="wide-2">
+                  <span>实际结果</span>
+                  <textarea id="actualResultInput" rows="3" placeholder="运行后填写，或由执行报告回填关键结果。"></textarea>
+                </label>
+              </div>
+
+              <div class="sub-grid">
+                <details class="sub-panel advanced-config">
+                  <summary><strong>高级参数</strong><span>普通功能用例可不填</span></summary>
+                  <textarea id="paramsInput" class="code" rows="9"></textarea>
+                </details>
+                <section class="sub-panel">
+                  <div class="panel-title compact">
+                    <div>
+                      <strong>参考图片</strong>
+                      <span>可上传或从设备画面采集</span>
+                    </div>
+                    <label class="file-button">
+                      上传
+                      <input id="imageInput" type="file" accept="image/*" />
+                    </label>
+                  </div>
+                  <div id="imagePreview" class="image-preview">暂无图片</div>
+                </section>
+              </div>
+            </section>
+
+            <section class="panel stats-panel">
+              <div class="panel-title">
+                <div>
+                  <strong>运行样本</strong>
+                  <span id="statsSummary">暂无样本</span>
+                </div>
+              </div>
+              <div id="statsGrid" class="stats-grid"></div>
+              <div id="recentRuns" class="recent-runs"></div>
+            </section>
+
+            <section class="panel steps-panel">
+              <div class="panel-title">
+                <div>
+                  <strong>测试步骤</strong>
+                  <span>步骤、预期结果、实际结果</span>
+                </div>
+                <div class="step-actions">
+                  <select id="actionPreset">
+                    <option value="relaunchToHome">回到首页</option>
+                    <option value="warmStart">温启动</option>
+                    <option value="dismissCommonPopups">关闭常见弹窗</option>
+                    <option value="searchKeyword">搜索关键词</option>
+                    <option value="searchBatch">批量搜索</option>
+                    <option value="openVodDetailFromResults">进入点播详情</option>
+                    <option value="clickAnyText">点击任一文本</option>
+                    <option value="clickOptionalTexts">点击一组可选按钮</option>
+                    <option value="closeOrBack">识别关闭/返回</option>
+                    <option value="homeTabSweep">首页 Tab 巡检</option>
+                    <option value="playAndAssert">播放并校验</option>
+                    <option value="enterFullscreen">进入全屏</option>
+                    <option value="waitAndCloseAd">等待并关闭广告</option>
+                    <option value="openCashierAndAssert">会员收银台校验</option>
+                    <option value="assertAnyText">校验任一文本</option>
+                    <option value="saveScreenshot">保存截图</option>
+                  </select>
+                  <button id="addStepButton" type="button">添加动作</button>
+                  <button id="copyStepsJsonButton" type="button">复制动作</button>
+                </div>
+              </div>
+              <div class="case-builder">
+                <div class="builder-row">
+                  <label>
+                    <span>业务模板</span>
+                    <select id="caseTemplatePreset">
+                      <option value="homeSmoke">首页 Tab 巡检</option>
+                      <option value="searchRegression">搜索批量回归</option>
+                      <option value="vodDetail">点播详情深度校验</option>
+                      <option value="playerFullPath">播放全屏链路</option>
+                      <option value="playerGesture">播放器手势回归</option>
+                      <option value="adGuard">广告等待关闭回归</option>
+                      <option value="startupAd">冷/温启动广告回归</option>
+                      <option value="cashierGuard">会员收银台回归</option>
+                      <option value="vipPath">会员路径回归</option>
+                      <option value="topicPath">专题活动回归</option>
+                      <option value="popupStability">弹窗关闭稳定性</option>
+                    </select>
+                  </label>
+                  <button id="applyCaseTemplateButton" type="button">套用模板</button>
+                </div>
+                <div class="builder-row builder-grid">
+                  <label>
+                    <span>业务域</span>
+                    <select id="businessArea">
+                      <option>首页</option>
+                      <option>搜索</option>
+                      <option>点播页</option>
+                      <option>播放器</option>
+                      <option>会员页</option>
+                      <option>专题页</option>
+                      <option>稳定性</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>动作</span>
+                    <select id="businessAction">
+                      <option value="relaunchToHome">回到首页</option>
+                      <option value="warmStart">温启动</option>
+                      <option value="dismissCommonPopups">关闭弹窗</option>
+                      <option value="searchKeyword">搜索关键词</option>
+                      <option value="searchBatch">批量搜索</option>
+                      <option value="openVodDetailFromResults">进入详情页</option>
+                      <option value="clickOptionalTexts">点击入口组</option>
+                      <option value="assertAnyText">校验文本</option>
+                      <option value="homeTabSweep">首页 Tab 巡检</option>
+                      <option value="playAndAssert">播放校验</option>
+                      <option value="enterFullscreen">全屏校验</option>
+                      <option value="waitAndCloseAd">等待并关闭广告</option>
+                      <option value="openCashierAndAssert">会员收银台校验</option>
+                      <option value="closeOrBack">关闭/返回</option>
+                      <option value="saveScreenshot">保存截图</option>
+                      <option value="sleep">等待</option>
+                    </select>
+                  </label>
+                  <label class="builder-target">
+                    <span>目标/文本</span>
+                    <input id="businessTarget" placeholder="例如：歌手, 乘风, 播放, 选集" />
+                  </label>
+                  <label>
+                    <span>次数</span>
+                    <input id="businessCount" type="number" min="1" max="20" value="1" />
+                  </label>
+                  <label>
+                    <span>等待 ms</span>
+                    <input id="businessWaitMs" type="number" min="0" step="100" value="1000" />
+                  </label>
+                  <label class="switch builder-switch">
+                    <input id="businessSaveArtifacts" type="checkbox" />
+                    <span>截图</span>
+                  </label>
+                  <button id="addBusinessStepButton" type="button">添加业务动作</button>
+                </div>
+                <div class="builder-row builder-grid">
+                  <label>
+                    <span>手势动作</span>
+                    <select id="gestureAction">
+                      <optgroup label="手势动作">
+                        <option value="tapPercent">百分比点击</option>
+                        <option value="swipePercent">百分比滑动</option>
+                        <option value="doubleTapPercent">双击</option>
+                        <option value="longPressPercent">长按</option>
+                        <option value="dragPercent">拖动</option>
+                        <option value="dragProgressBar">拖动进度条</option>
+                        <option value="playerGestureSuite">播放器手势套件</option>
+                      </optgroup>
+                      <optgroup label="识图动作">
+                        <option value="imageMatchAny">图片匹配</option>
+                      </optgroup>
+                    </select>
+                  </label>
+                  <label class="builder-target">
+                    <span>目标/图片</span>
+                    <input id="gestureTarget" placeholder="例如：/uploads/a.png, /uploads/b.png" />
+                  </label>
+                  <section id="gestureImageUpload" class="asset-upload wide-2">
+                    <div class="asset-upload-head">
+                      <strong>图片上传</strong>
+                      <span>拖拽或选择文件，自动回填图片路径</span>
+                    </div>
+                    <div id="gestureImageDropzone" class="asset-dropzone" tabindex="0">
+                      <input id="gestureImageInput" type="file" accept="image/*" multiple />
+                      <p>拖拽图片到这里，或点击选择文件</p>
+                      <em>支持多张图片，上传后会显示缩略图</em>
+                    </div>
+                    <div id="gestureImagePreview" class="asset-preview"></div>
+                  </section>
+                  <label>
+                    <span>次数</span>
+                    <input id="gestureCount" type="number" min="1" max="20" value="1" />
+                  </label>
+                  <label>
+                    <span>等待 ms</span>
+                    <input id="gestureWaitMs" type="number" min="0" step="100" value="1000" />
+                  </label>
+                  <label class="switch builder-switch">
+                    <input id="gestureSaveArtifacts" type="checkbox" />
+                    <span>截图</span>
+                  </label>
+                  <button id="addGestureStepButton" type="button">添加手势动作</button>
+                </div>
+              </div>
+              <details class="json-guide">
+                <summary>高级模板</summary>
+                <div class="guide-grid">
+                  <button class="guide-copy" type="button" data-template='{"action":"searchKeyword","name":"搜索关键词","keyword":"{{params.keyword}}"}'>搜索关键词</button>
+                  <button class="guide-copy" type="button" data-template='{"action":"warmStart","name":"温启动并等待广告","backgroundSeconds":3,"timeoutMs":6500,"saveStartupAdArtifacts":true}'>温启动</button>
+                  <button class="guide-copy" type="button" data-template='{"action":"searchBatch","name":"批量搜索","keywords":"{{params.keywords}}","resultTexts":["播放","相关影视作品"],"saveArtifacts":true}'>批量搜索</button>
+                  <button class="guide-copy" type="button" data-template='{"action":"swipePercent","name":"向上滑动","from":{"x":0.5,"y":0.78},"to":{"x":0.5,"y":0.28}}'>百分比滑动</button>
+                  <button class="guide-copy" type="button" data-template='{"action":"clickOptionalTexts","name":"点击常用入口","texts":["分享","缓存","评论"],"backAfterClick":true}'>入口巡检</button>
+                  <button class="guide-copy" type="button" data-template='{"action":"imageMatchAny","name":"图片匹配并执行","images":["/uploads/a.png","/uploads/b.png"],"matchAction":"click","timeoutMs":5000,"threshold":0.94}'>图片匹配</button>
+                  <button class="guide-copy" type="button" data-template='{"action":"closeOrBack","name":"识别关闭或返回","includeClose":true,"includeBack":true,"fallback":true}'>关闭/返回</button>
+                  <button class="guide-copy" type="button" data-template='{"action":"homeTabSweep","name":"首页 Tab 逐个巡检","tabs":["刷片","首页测试","找片","短剧","综艺","电视剧","电影"],"swipeCount":2,"saveArtifacts":true}'>首页 Tab</button>
+                  <button class="guide-copy" type="button" data-template='{"action":"playAndAssert","name":"播放并校验","playTexts":["播放","立即播放"],"playingTexts":["暂停","全屏","倍速"]}'>播放校验</button>
+                  <button class="guide-copy" type="button" data-template='{"action":"enterFullscreen","name":"进入全屏","texts":["全屏"],"assertTexts":["倍速","清晰度","选集"]}'>全屏校验</button>
+                  <button class="guide-copy" type="button" data-template='{"action":"playerGestureSuite","name":"播放器手势套件","gestures":["doubleTapRight","doubleTapLeft","longPress","dragProgress"],"assertTexts":["暂停","倍速","清晰度"],"saveArtifacts":true}'>播放器手势</button>
+                  <button class="guide-copy" type="button" data-template='{"action":"dragProgressBar","name":"拖动播放进度条","from":{"x":0.32,"y":0.84},"to":{"x":0.68,"y":0.84},"saveArtifacts":true}'>进度条拖动</button>
+                  <button class="guide-copy" type="button" data-template='{"action":"waitAndCloseAd","name":"广告等待与关闭","timeoutMs":12000,"texts":["广告","跳过","会员免广告"],"saveArtifacts":true}'>广告处理</button>
+                  <button class="guide-copy" type="button" data-template='{"action":"openCashierAndAssert","name":"会员收银台只校验","entryTexts":["会员免广告","开通会员","立即开通","VIP"],"texts":["收银台","微信支付","支付宝","连续包月","会员权益"],"closeAfterAssert":true,"saveArtifacts":true}'>会员收银台</button>
+                </div>
+              </details>
+              <div id="stepList" class="step-list"></div>
+            </section>
+          </div>
+        </section>
+
+        <aside class="ops-rail">
+          <section class="panel device-panel">
+            <div class="device-head">
+              <div>
+                <strong>设备画面</strong>
+                <span id="deviceStatus">未连接</span>
+                <span id="deviceCapturedAt">未采集</span>
+              </div>
+              <label class="inline-field">
+                <span>缩放</span>
+                <select id="deviceScaleInput">
+                  <option value="240">小</option>
+                  <option value="280">标准</option>
+                  <option value="300">中</option>
+                  <option value="320">大</option>
+                  <option value="native">原始</option>
+                </select>
+              </label>
+              <label class="inline-field">
+                <span>采集</span>
+                <select id="deviceIntervalInput">
+                  <option value="manual">手动</option>
+                  <option value="100">100ms</option>
+                  <option value="200">200ms</option>
+                  <option value="500">500ms</option>
+                  <option value="1000">1s</option>
+                  <option value="2000">2s</option>
+                  <option value="5000">5s</option>
+                </select>
+              </label>
+            </div>
+            <div class="device-actions">
+              <button id="connectDeviceButton" type="button">连接</button>
+              <button id="refreshDeviceButton" type="button">刷新</button>
+              <button id="captureDeviceButton" type="button">参考图</button>
+              <button id="stopDeviceButton" type="button">断开</button>
+            </div>
+            <div id="devicePreview" class="device-preview">连接后显示手机当前屏幕</div>
+          </section>
+
+          <section class="panel run-panel">
+            <div class="panel-title">
+              <div>
+                <strong>运行日志</strong>
+                <span id="runStatusText">等待运行</span>
+              </div>
+              <button id="refreshRunButton" type="button">刷新</button>
+            </div>
+            <div id="runProgress" class="run-progress idle">
+              <div class="progress-top">
+                <strong id="runProgressTitle">未开始</strong>
+                <span id="runProgressPercent">0%</span>
+              </div>
+              <div class="progress-bar" aria-hidden="true">
+                <span id="runProgressFill"></span>
+              </div>
+              <div class="progress-meta">
+                <span id="runProgressCase">等待提交运行</span>
+                <span id="runProgressStep">-</span>
+              </div>
+            </div>
+            <pre id="runLog">还没有运行记录。</pre>
+          </section>
+        </aside>
+      </section>
+    </main>
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>
